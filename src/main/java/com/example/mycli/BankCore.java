@@ -1,11 +1,11 @@
 package com.example.mycli;
 public class BankCore {
-    private static long id = 1;
+    private static final long id = 1;
     private static long lastAccountNumber = 1;
-    private AccountCreationService accountCreationService;
+    private final AccountCreationService accountCreationService;
 
     public BankCore(AccountCreationService accountCreationService) {
-
+        this.accountCreationService = accountCreationService;
     }
     public void createNewAccount(AccountType accountType, String clientID) {
         this.accountCreationService.create(accountType, id, clientID, lastAccountNumber);

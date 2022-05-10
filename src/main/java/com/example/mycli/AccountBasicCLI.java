@@ -1,15 +1,20 @@
 package com.example.mycli;
 public class AccountBasicCLI {
-    private CreateAccountOperationUI createAccountOperationUI;
-    private BankCore bankCore;
-    private AccountListingService accountListingService;
+    private final CreateAccountOperationUI createAccountOperationUI;
+    private final AccountListingService accountListingService;
+    private final BankCore bankCore;
 
-    public AccountBasicCLI(CreateAccountOperationUI createAccountOperationUI, BankCore bankCore, AccountListingService accountListingService) {
-        this.createAccountOperationUI = createAccountOperationUI;
-        this.bankCore = bankCore;
+    public AccountBasicCLI(CreateAccountOperationUI createAccountOperationUI, BankCore bankCore,
+                           AccountListingService accountListingService) {
         this.accountListingService = accountListingService;
+        this.bankCore = bankCore;
+        this.createAccountOperationUI = createAccountOperationUI;
     }
-    public void createAccountRequest(String clientID) {}
-
-    public void getAccounts(String clientID) {}
+    public void createAccountRequest(String clientID) {
+        AccountType accountType = createAccountOperationUI.requestAccountType();
+        bankCore.createNewAccount(accountType, clientID);
+    }
+    public void getAccounts(String clientID) {
+        System.out.println(accountListingService.getClientAccounts(clientID));
+    }
 }

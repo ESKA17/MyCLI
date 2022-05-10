@@ -56,7 +56,6 @@ public class Account {
 
     @Override
     public String toString() {
-        return accountType + " " +  id + " " + clientID + " " + balance + " " + withdrawalAllowed;
+        return "Account{type=" + accountType + ", id=" +  id + ", clientID=" + clientID + ", balance=" + balance + "}";
     }
-
 }

@@ -6,12 +6,18 @@ public class MemoryAccountDAO implements AccountDAO {
     private final List<Account> accountList;
 
     public MemoryAccountDAO() {
-        this.accountList = new ArrayList<Account>() ;
+        accountList = new ArrayList<>();
     }
 
     @Override
     public List<Account> getClientAccounts(String clientID) {
-        return null;
+        List<Account> out = new ArrayList<>();
+        for (Account account: accountList) {
+            if (Objects.equals(account.getClientID(), clientID)) {
+                out.add(account);
+            }
+        }
+        return out;
     }
 
     @Override
@@ -27,16 +33,27 @@ public class MemoryAccountDAO implements AccountDAO {
 
     @Override
     public List<Account> getClientAccountsByType(String clientID, AccountType accountType) {
-        return null;
+        List<Account> clientAccounts = getClientAccounts(clientID);
+        List<Account> out = new ArrayList<>();
+        for (Account account: clientAccounts) {
+            if (account.getAccountType() == accountType) {
+                out.add(account);
+            }
+        }
+        return out;
     }
 
     @Override
     public AccountWithdraw getClientWithdrawAccount(String clientID, String accountID) {
+        Account out = getClientAccount(clientID, accountID);
+        if (out.isWithdrawalAllowed()) return (AccountWithdraw) out;
         return null;
     }
 
     @Override
     public Account getClientAccount(String clientID, String accountID) {
+        Account out = accountList.get(Integer.parseInt(accountID));
+        if (Objects.equals(out.getClientID(), clientID)) return out;
         return null;
     }
 }

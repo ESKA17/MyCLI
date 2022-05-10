@@ -1,7 +1,8 @@
 package com.example.mycli;
 
-public class AccountType {
+enum AccountType {
+    CHECKING,
+    SAVING,
+    FIXED
 
-    public AccountType(String accountType) {
-    }
 }
