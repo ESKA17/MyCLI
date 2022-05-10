@@ -1,4 +1,9 @@
-package com.example.mycli;
+package com.example.mycli.dao;
+
+import com.example.mycli.server.Account;
+import com.example.mycli.server.AccountType;
+import com.example.mycli.server.AccountWithdraw;
+
 import java.util.List;
 
 public interface AccountDAO {

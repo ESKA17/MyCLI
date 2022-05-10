@@ -1,8 +1,9 @@
-package com.example.mycli;
+package com.example.mycli.server;
+
 import java.util.List;
 
 public interface AccountListingService {
-    Account getClientAccount();
+    Account getClientAccount(String clientID, String accountID);
 
     AccountWithdraw getClientWithdrawAccount(String clientID, String accountID);
 

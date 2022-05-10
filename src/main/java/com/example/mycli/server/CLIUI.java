@@ -1,10 +1,11 @@
-package com.example.mycli;
+package com.example.mycli.server;
 public interface CLIUI extends CreateAccountOperationUI {
-
     static void greeting() {
         System.out.println("Welcome to CLI bank service!");
     }
-
+    static void accountCreationDisclaimer() {
+        System.out.println("Bank account created!");
+    }
     static void helpText() {
         String helpText = """
                 Please enter operation number:
@@ -22,5 +23,4 @@ public interface CLIUI extends CreateAccountOperationUI {
         System.out.println("Application closed!");
         return false;
     }
-
 }

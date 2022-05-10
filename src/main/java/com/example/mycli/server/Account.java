@@ -1,4 +1,5 @@
-package com.example.mycli;
+package com.example.mycli.server;
+
 public class Account {
     private AccountType accountType;
     private String id;
@@ -56,7 +57,6 @@ public class Account {
 
     @Override
     public String toString() {
-        return accountType + " " +  id + " " + clientID + " " + balance + " " + withdrawalAllowed;
+        return "Account{type=" + accountType + ", id=" +  id + ", clientID=" + clientID + ", balance=" + balance + "}";
     }
-
 }
