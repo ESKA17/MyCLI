@@ -24,10 +24,7 @@ public class MyCliApplication {
             input = MyCLI.scanner.nextLine();
             switch (input) {
                 case "1" -> accountBasicCLI.getAccounts(clientID);
-                case "2" -> {
-                    accountBasicCLI.createAccountRequest(clientID);
-                    CLIUI.accountCreationDisclaimer();
-                }
+                case "2" -> accountBasicCLI.createAccountRequest(clientID);
                 case "6" -> CLIUI.helpText();
                 case "7" -> work = CLIUI.exit();
             }

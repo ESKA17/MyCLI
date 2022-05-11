@@ -1,6 +1,5 @@
 package com.example.mycli.server;
 import com.example.mycli.dao.AccountDAO;
-import com.example.mycli.server.*;
 
 public class AccountCreationServiceImpl implements AccountCreationService {
     private final com.example.mycli.dao.AccountDAO AccountDAO;

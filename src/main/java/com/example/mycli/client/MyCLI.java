@@ -1,5 +1,4 @@
 package com.example.mycli.client;
-import com.example.mycli.dao.MemoryAccountDAO;
 import com.example.mycli.server.*;
 
 import java.util.Scanner;
@@ -33,17 +32,23 @@ public class MyCLI implements CLIUI {
         System.out.println(accountTypes);
         String input = scanner.nextLine();
         switch (input) {
-            case "FIXED":
+            case "FIXED" -> {
+                CLIUI.accountCreationDisclaimer();
                 return AccountType.FIXED;
-            case "CHECKING":
+            }
+            case "CHECKING" -> {
+                CLIUI.accountCreationDisclaimer();
                 return AccountType.CHECKING;
-            case "SAVING":
+            }
+            case "SAVING" -> {
+                CLIUI.accountCreationDisclaimer();
                 return AccountType.SAVING;
-            default:
+            }
+            default -> {
                 System.out.println("Wrong account type! Try again!");
-                CLIUI.helpText();
+                return null;
+            }
         }
-        return null;
     }
 }
 
