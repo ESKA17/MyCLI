@@ -1,7 +1,6 @@
 package com.example.mycli;
 
 import com.example.mycli.client.MyCLI;
-import com.example.mycli.dao.MemoryAccountDAO;
 import com.example.mycli.server.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,7 +13,7 @@ public class MyCliApplication {
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("props.xml");
         SpringApplication.run(MyCliApplication.class, args);
-        MyCLI myCLI = context.getBean(MyCLI.class);
+        context.getBean(MyCLI.class);
         CLIUI.greeting();
         CLIUI.helpText();
         AccountBasicCLI accountBasicCLI = context.getBean(AccountBasicCLI.class);
