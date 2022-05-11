@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="myCLI" class="com.example.mycli.client.MyCLI">
+
+    </bean>
+
+    <bean id="cLIUI" class="com.example.mycli.server.CLIUI" abstract="true">
+
+    </bean>
+    <bean id="createAccountOperationUI" class="com.example.mycli.server.CreateAccountOperationUI" abstract="true">
+
+    </bean>
+
+    <bean id="accountBasicCLI" class="com.example.mycli.server.AccountBasicCLI">
+        <constructor-arg index="0" ref="myCLI"/>
+        <constructor-arg index="1" ref="bankCore"/>
+        <constructor-arg index="2" ref="accountListingServiceImpl"/>
+    </bean>
+
+    <bean id="bankCore" class="com.example.mycli.server.BankCore">
+        <constructor-arg ref="accountCreationServiceImpl"/>
+    </bean>
+    
+
+    <bean id="accountListingService" class="com.example.mycli.server.AccountListingService" abstract="true">
+
+    </bean>
+    <bean id="accountListingServiceImpl" class="com.example.mycli.server.AccountListingServiceImpl">
+        <constructor-arg ref="memoryAccountDAO"/>
+    </bean>
+    <bean id="accountCreationService" class="com.example.mycli.server.AccountCreationService" abstract="true">
+
+    </bean>
+    <bean id="accountCreationServiceImpl" class="com.example.mycli.server.AccountCreationServiceImpl">
+        <constructor-arg ref="memoryAccountDAO"/>
+    </bean>
+
+
+
+    <bean id="memoryAccountDAO" class="com.example.mycli.dao.MemoryAccountDAO" >
+
+    </bean>
+    <bean id="accountDAO" class="com.example.mycli.dao.AccountDAO" abstract="true">
+
+    </bean>
+
+</beans>
