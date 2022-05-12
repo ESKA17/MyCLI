@@ -1,16 +1,18 @@
-package com.example.mycli.server;
+package com.example.mycli.client;
 
+import com.example.mycli.server.AccountType;
+import com.example.mycli.server.BankCore;
+import com.example.mycli.services.AccountListingService;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@AllArgsConstructor
+@Service
 public class AccountBasicCLI {
     private final CreateAccountOperationUI createAccountOperationUI;
     private final AccountListingService accountListingService;
     private final BankCore bankCore;
 
-    public AccountBasicCLI(CreateAccountOperationUI createAccountOperationUI, BankCore bankCore,
-                           AccountListingService accountListingService) {
-        this.accountListingService = accountListingService;
-        this.bankCore = bankCore;
-        this.createAccountOperationUI = createAccountOperationUI;
-    }
     public void createAccountRequest(String clientID) {
         AccountType accountType = createAccountOperationUI.requestAccountType();
         if (accountType != null) bankCore.createNewAccount(accountType, clientID);

@@ -3,9 +3,10 @@ package com.example.mycli.dao;
 import com.example.mycli.server.Account;
 import com.example.mycli.server.AccountType;
 import com.example.mycli.server.AccountWithdraw;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
-
+@Repository
 public class MemoryAccountDAO implements AccountDAO {
     private final List<Account> accountList;
 
@@ -31,7 +32,7 @@ public class MemoryAccountDAO implements AccountDAO {
 
     @Override
     public void updateAccount(Account account) {
-        int id = Integer.parseInt(account.getId());
+        int id = Integer.parseInt(account.getId())%100000-1;
         this.accountList.set(id, account);
     }
 
@@ -56,7 +57,7 @@ public class MemoryAccountDAO implements AccountDAO {
 
     @Override
     public Account getClientAccount(String clientID, String accountID) {
-        Account out = accountList.get(Integer.parseInt(accountID));
+        Account out = accountList.get(Integer.parseInt(accountID)%100000-1);
         if (Objects.equals(out.getClientID(), clientID)) return out;
         return null;
     }

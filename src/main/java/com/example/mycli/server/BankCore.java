@@ -1,5 +1,9 @@
 package com.example.mycli.server;
 
+import com.example.mycli.services.AccountCreationService;
+import org.springframework.stereotype.Service;
+
+@Service
 public class BankCore {
     private static final long id = 1;
     private static long lastAccountNumber = 1;

@@ -1,16 +1,18 @@
-package com.example.mycli.server;
+package com.example.mycli.services;
 
 import com.example.mycli.dao.AccountDAO;
+import com.example.mycli.server.Account;
+import com.example.mycli.server.AccountType;
+import com.example.mycli.server.AccountWithdraw;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@AllArgsConstructor
+@Service
 public class AccountListingServiceImpl implements AccountListingService {
 
     private final AccountDAO accountDAO;
-
-    public AccountListingServiceImpl(AccountDAO accountDAO) {
-        this.accountDAO = accountDAO;
-    }
 
     @Override
     public Account getClientAccount(String clientID, String accountID) {
