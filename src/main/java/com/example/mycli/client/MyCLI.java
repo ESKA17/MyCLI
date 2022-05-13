@@ -26,10 +26,10 @@ public class MyCLI implements CLIUI, WithdrawDepositOperationCLIUI {
                 return amount;
             } else {
                 System.out.println("Amount of money should be greater than zero!");
-                return 0.0;
+                return -1;
             }
         } catch (Exception e) {
-            System.out.println("Incorrect input!");
+            System.out.println("Wrong input!");
             return 0.0;
         }
     }
@@ -37,16 +37,16 @@ public class MyCLI implements CLIUI, WithdrawDepositOperationCLIUI {
     @Override
     public String requestClientAccountNumber() {
         System.out.println("Type account ID:");
-        String input = scanner.nextLine();
         try {
+            String input = scanner.nextLine();
             if (Integer.parseInt(input) >= 1000001) {
                 return input;
             } else {
-                System.out.println("No account was found!");
+                System.out.println("Check account number!");
                 return "";
             }
         } catch (Exception e) {
-            System.out.println("Check account number!");
+            System.out.println("Wrong input!");
             return "";
         }
 
