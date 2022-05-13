@@ -50,6 +50,7 @@ public class MemoryAccountDAO implements AccountDAO {
 
     @Override
     public AccountWithdraw getClientWithdrawAccount(String clientID, String accountID) {
+        if (Integer.parseInt(accountID)%100000 > accountList.size()) return null;
         Account out = getClientAccount(clientID, accountID);
         if (out.isWithdrawalAllowed()) return (AccountWithdraw) out;
         return null;
@@ -57,6 +58,7 @@ public class MemoryAccountDAO implements AccountDAO {
 
     @Override
     public Account getClientAccount(String clientID, String accountID) {
+        if (Integer.parseInt(accountID)%100000 > accountList.size()) return null;
         Account out = accountList.get(Integer.parseInt(accountID)%100000-1);
         if (Objects.equals(out.getClientID(), clientID)) return out;
         return null;
