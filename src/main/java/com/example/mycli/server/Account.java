@@ -1,14 +1,14 @@
 package com.example.mycli.server;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-@Getter
-@Setter
+import lombok.*;
+import org.springframework.data.annotation.Id;
+
+@Data
+@Builder
 @AllArgsConstructor
 public class Account {
     private AccountType accountType;
-    private String id;
+    private @Id String id;
     private String clientID;
     private double balance;
     private boolean withdrawalAllowed;

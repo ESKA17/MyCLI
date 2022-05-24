@@ -13,7 +13,6 @@ public class MyCliApplication implements CommandLineRunner {
     private ApplicationContext context;
 
     public static void main(String[] args)  {
-
         SpringApplication.run(MyCliApplication.class);
     }
     @Override
