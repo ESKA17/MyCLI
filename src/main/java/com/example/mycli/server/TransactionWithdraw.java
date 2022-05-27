@@ -14,8 +14,8 @@ public class TransactionWithdraw {
 
     public void execute(AccountWithdraw accountWithdraw, double amount) {
         accountWithdrawService.withdraw(amount, accountWithdraw);
-        transactionDAO.addTransaction(new Transaction(accountWithdraw.getAccountType(), accountWithdraw.getId(),
-                accountWithdraw.getClientID(), amount));
+        transactionDAO.addTransaction("Withdraw", accountWithdraw.getAccountType(), accountWithdraw.getId(),
+                accountWithdraw.getClientID(), amount);
     }
 
 }

@@ -1,7 +1,6 @@
 package com.example.mycli;
 
 import com.example.mycli.client.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -9,8 +8,11 @@ import org.springframework.boot.CommandLineRunner;
 
 @SpringBootApplication
 public class MyCliApplication implements CommandLineRunner {
-    @Autowired
-    private ApplicationContext context;
+    private final ApplicationContext context;
+
+    public MyCliApplication(ApplicationContext context) {
+        this.context = context;
+    }
 
     public static void main(String[] args)  {
         SpringApplication.run(MyCliApplication.class);

@@ -1,9 +1,14 @@
 package com.example.mycli.server;
 
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Entity;
+
+@Entity
+@NoArgsConstructor
 public class SavingAccount extends AccountWithdraw {
-    private final static AccountType accountType = AccountType.SAVING;
 
     public SavingAccount(String accountID, String clientID, double balance) {
-        super(accountType, accountID, clientID, balance);
+        super(AccountType.SAVING, accountID, clientID, balance);
     }
 }

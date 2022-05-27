@@ -3,10 +3,11 @@ package com.example.mycli.dao;
 import com.example.mycli.server.Account;
 import com.example.mycli.server.AccountType;
 import com.example.mycli.server.AccountWithdraw;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-@Repository
+
 public interface AccountDAO {
     List<Account> getClientAccounts(String clientID);
 

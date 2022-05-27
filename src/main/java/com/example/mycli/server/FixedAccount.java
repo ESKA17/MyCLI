@@ -1,9 +1,11 @@
 package com.example.mycli.server;
 
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Entity;
 
+@Entity
+@NoArgsConstructor
 public class FixedAccount extends AccountDeposit{
     private final static AccountType accountType = AccountType.FIXED;
 

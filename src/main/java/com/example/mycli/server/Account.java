@@ -1,14 +1,21 @@
 package com.example.mycli.server;
 
 import lombok.*;
-import org.springframework.data.annotation.Id;
 
-@Data
+import javax.persistence.*;
+
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
+@Entity
+
 public class Account {
+    @Enumerated(EnumType.STRING)
     private AccountType accountType;
-    private @Id String id;
+    @Id
+    private String id;
     private String clientID;
     private double balance;
     private boolean withdrawalAllowed;
@@ -21,4 +28,5 @@ public class Account {
     public String toString() {
         return "Account{type=" + accountType + ", id=" +  id + ", clientID=" + clientID + ", balance=" + balance + "}";
     }
+
 }

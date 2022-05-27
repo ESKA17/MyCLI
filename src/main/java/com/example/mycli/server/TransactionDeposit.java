@@ -13,8 +13,8 @@ public class TransactionDeposit {
 
     public void execute(Account account, double amount) {
         accountDepositService.deposit(amount, account);
-        transactionDAO.addTransaction(new Transaction(account.getAccountType(), account.getId(),
-                account.getClientID(), amount));
+        transactionDAO.addTransaction("Deposit", account.getAccountType(), account.getId(),
+                account.getClientID(), amount);
     }
 
 }
