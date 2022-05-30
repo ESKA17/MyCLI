@@ -14,11 +14,11 @@ import java.util.Objects;
 @Service
 @AllArgsConstructor
 public class DatabaseAccountDAO implements AccountDAO{
-    private final AccountCrudRepositoryDAO accountCrudRepositoryDAO;
+    private final AccountRepositoryDAO accountRepositoryDAO;
     @Override
     public List<Account> getClientAccounts(String clientID) {
         List<Account> accountList = new ArrayList<>();
-        Iterable<Account> tmpMemory = accountCrudRepositoryDAO.findAll();
+        Iterable<Account> tmpMemory = accountRepositoryDAO.findAll();
         tmpMemory.forEach(account -> {
             if (Objects.equals(account.getClientID(), clientID)) accountList.add(account);
         });
@@ -27,14 +27,14 @@ public class DatabaseAccountDAO implements AccountDAO{
 
     @Override
     public void createNewAccount(Account account) {
-        accountCrudRepositoryDAO.save(account);
+        accountRepositoryDAO.save(account);
     }
 
     @Override
     public void updateAccount(Account account) {
         String updateAccountID = account.getId();
-        accountCrudRepositoryDAO.deleteById(updateAccountID);
-        accountCrudRepositoryDAO.save(account);
+        accountRepositoryDAO.deleteById(updateAccountID);
+        accountRepositoryDAO.save(account);
     }
 
     @Override
