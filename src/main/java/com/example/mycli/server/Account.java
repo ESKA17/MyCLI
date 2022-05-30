@@ -14,8 +14,7 @@ import javax.persistence.*;
 public class Account {
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
-    @Id
-    private String id;
+    private @Id String id;
     private String clientID;
     private double balance;
     private boolean withdrawalAllowed;

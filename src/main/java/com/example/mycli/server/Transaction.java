@@ -12,8 +12,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 public class Transaction {
-    @Id
-    private long transactionID;
+
+    private @Id long transactionID;
     private String operation;
     @Enumerated(EnumType.STRING)
     private AccountType accountType;

@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 public interface AccountRepositoryDAO extends CrudRepository<Account, String> {
 
-
 }

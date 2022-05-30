@@ -4,14 +4,15 @@ import com.example.mycli.server.Account;
 import com.example.mycli.server.AccountType;
 import com.example.mycli.server.AccountWithdraw;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Service
+@Getter
 @AllArgsConstructor
 public class DatabaseAccountDAO implements AccountDAO{
     private final AccountRepositoryDAO accountRepositoryDAO;
