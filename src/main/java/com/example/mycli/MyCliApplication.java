@@ -9,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 @SpringBootApplication
 public class MyCliApplication implements CommandLineRunner {
     private final ApplicationContext context;
+    public final String clientID = "1";
 
     public MyCliApplication(ApplicationContext context) {
         this.context = context;
@@ -26,7 +27,6 @@ public class MyCliApplication implements CommandLineRunner {
         TransactionDepositCLI transactionDepositCLI = context.getBean(TransactionDepositCLI.class);
         TransactionWithdrawCLI transactionWithdrawCLI = context.getBean(TransactionWithdrawCLI.class);
         boolean work = true;
-        String clientID = "1";
         while (work) {
             switch (myCLI.scanner.nextLine()) {
                 case "1" -> accountBasicCLI.getAccounts(clientID);
