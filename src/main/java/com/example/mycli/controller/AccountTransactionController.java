@@ -58,7 +58,7 @@ public class AccountTransactionController {
             if (Integer.parseInt(account_id) >= 1000001) {
                 return ResponseEntity.status(HttpStatus.OK).body(out);
             } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong input!");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not Found!");
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong input!");
@@ -90,14 +90,15 @@ public class AccountTransactionController {
                 assert account != null;
                 if (account.isWithdrawalAllowed()) {
                     if (amount > 0) {
-                        if (account.getBalance() > amount) {
+                        if (account.getBalance() >= amount) {
                             transactionWithdraw.execute((AccountWithdraw) account, amount);
-                            return ResponseEntity.status(HttpStatus.OK).body("Money were withdrawn!");
+                            return ResponseEntity.status(HttpStatus.OK).body(String.format("%.2f", amount) +
+                                    "$ transferred to " + account_id + " account");
                         } else {
-                            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Not enough funds!");
+                            return ResponseEntity.status(HttpStatus.OK).body("Not enough funds!");
                         }
                     } else {
-                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Amount should be greater than 01");
+                        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Amount should be greater than 0!");
                     }
                 } else {
                     return ResponseEntity.status(HttpStatus.OK).body("Withdrawal is not allowed!");
@@ -117,9 +118,10 @@ public class AccountTransactionController {
                 if (amount > 0) {
                     Account account = accountRepositoryDAO.findById(account_id).orElse(null);
                     transactionDeposit.execute(account, amount);
-                    return ResponseEntity.status(HttpStatus.OK).body("Money were deposited!");
+                    return ResponseEntity.status(HttpStatus.OK).body(String.format("%.2f", amount) +
+                            "$ transferred to " + account_id + " account");
                 } else {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Amount should be greater than 0");
+                    return ResponseEntity.status(HttpStatus.OK).body("Amount should be greater than 0");
                 }
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong input!");
