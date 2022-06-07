@@ -1,5 +1,6 @@
 package com.example.mycli.server;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 
@@ -11,7 +12,9 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Schema
 public class Transaction {
+
 
     private @Id long transactionID;
     private String operation;

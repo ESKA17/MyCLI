@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS Account
     isWithdrawalAllowed BOOLEAN
 );
 
-CREATE TABLE IF NOT EXISTS "Transaction"
+CREATE TABLE IF NOT EXISTS Transaction
 (   transactionID LONG NOT NULL,
     operation NVARCHAR(40) NOT NULL,
     accountType NVARCHAR(20)  NOT NULL,

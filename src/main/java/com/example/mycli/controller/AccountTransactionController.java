@@ -4,7 +4,6 @@ import com.example.mycli.MyCliApplication;
 import com.example.mycli.dao.AccountRepositoryDAO;
 import com.example.mycli.dao.TransactionRepositoryDAO;
 import com.example.mycli.server.*;
-import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +24,6 @@ public class AccountTransactionController {
     private final BankCore bankCore;
     private final MyCliApplication myCliApplication;
 
-    @ApiOperation(value = "This method is used to get all accounts present in database.")
     @GetMapping()
     ResponseEntity<List<Account>> getAllAccounts() {
         Iterable<Account> iterable = accountRepositoryDAO.findAll();
@@ -33,24 +31,22 @@ public class AccountTransactionController {
         return ResponseEntity.status(HttpStatus.OK).body(out);
     }
 
-    @ApiOperation(value = "This method is used for creation of a new account.")
     @PostMapping()
     ResponseEntity<String> createAccount(@RequestParam String accountType) {
         if (Objects.equals(accountType, "CHECKING")) {
             bankCore.createNewAccount(AccountType.CHECKING, myCliApplication.clientID);
-            return ResponseEntity.status(HttpStatus.CREATED).body("CHECKING account was created\n");
+            return ResponseEntity.status(HttpStatus.OK).body("CHECKING account was created\n");
         } else if (Objects.equals(accountType, "SAVING")) {
             bankCore.createNewAccount(AccountType.SAVING, myCliApplication.clientID);
-            return ResponseEntity.status(HttpStatus.CREATED).body("SAVING account was created\n");
+            return ResponseEntity.status(HttpStatus.OK).body("SAVING account was created\n");
         } else if (Objects.equals(accountType, "FIXED")) {
             bankCore.createNewAccount(AccountType.FIXED, myCliApplication.clientID);
-            return ResponseEntity.status(HttpStatus.CREATED).body("FIXED account was created\n");
+            return ResponseEntity.status(HttpStatus.OK).body("FIXED account was created\n");
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong input!\n");
         }
     }
 
-    @ApiOperation(value = "This method is used to get a specific account from database.")
     @GetMapping("/{account_id}")
     ResponseEntity<String> getAccount(@PathVariable String account_id) {
         String out = accountRepositoryDAO.findById(account_id).toString();
@@ -65,7 +61,6 @@ public class AccountTransactionController {
         }
     }
 
-    @ApiOperation(value = "This method is used for deletion of specific account.")
     @DeleteMapping("/{account_id}")
     ResponseEntity<String> deleteAccount(@PathVariable String account_id) {
         try {
@@ -81,7 +76,6 @@ public class AccountTransactionController {
 
     }
 
-    @ApiOperation(value = "This method is used for withdraw of money from specific account.")
     @PostMapping("/{account_id}/withdraw")
     ResponseEntity<String> withdrawMoney(@PathVariable String account_id, @RequestParam double amount) {
         try {
@@ -131,7 +125,6 @@ public class AccountTransactionController {
         }
     }
 
-    @ApiOperation(value = "This method is used to get all transactions related to specific account.")
     @GetMapping("/{account_id}/transactions")
     ResponseEntity<?> getAllTransactions(@PathVariable String account_id) {
 
@@ -150,4 +143,10 @@ public class AccountTransactionController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong input!");
         }
     }
+    @GetMapping("/transactions/{tr_id}")
+    Transaction getAllTransactions(@PathVariable long tr_id) {
+        return transactionRepositoryDAO.getTransactionByTransactionID(tr_id);
+
+    }
 }
+

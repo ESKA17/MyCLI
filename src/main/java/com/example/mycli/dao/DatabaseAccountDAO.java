@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-@Getter
 @AllArgsConstructor
 public class DatabaseAccountDAO implements AccountDAO{
     private final AccountRepositoryDAO accountRepositoryDAO;
