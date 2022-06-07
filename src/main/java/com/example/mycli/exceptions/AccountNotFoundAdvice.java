@@ -15,4 +15,11 @@ public class AccountNotFoundAdvice {
     String accountNotFound(AccountNotFound ex) {
         return ex.getMessage();
     }
+
+    @ResponseBody
+    @ExceptionHandler(AccountBadRequest.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    String badRequest(AccountBadRequest ex) {
+        return ex.getMessage();
+    }
 }

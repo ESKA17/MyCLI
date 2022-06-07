@@ -1,8 +1,9 @@
-package com.example.mycli.controller;
+package com.example.mycli.web;
 
 import com.example.mycli.MyCliApplication;
 import com.example.mycli.dao.AccountRepositoryDAO;
 import com.example.mycli.dao.TransactionRepositoryDAO;
+import com.example.mycli.exceptions.AccountBadRequest;
 import com.example.mycli.exceptions.AccountNotFound;
 import com.example.mycli.server.*;
 import lombok.AllArgsConstructor;
@@ -45,9 +46,7 @@ public class AccountTransactionController {
 
     @GetMapping("/{account_id}")
     ResponseEntity<?> getAccount(@PathVariable String account_id) {
-        if (!account_id.matches("[0-9]+")) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong input!");
-        }
+        digitCheck(account_id);
         Account out = accountRepositoryDAO.findById(account_id).orElseThrow(() ->
                 new AccountNotFound(account_id));
         return ResponseEntity.status(HttpStatus.OK).body(out);
@@ -55,9 +54,7 @@ public class AccountTransactionController {
 
     @DeleteMapping("/{account_id}")
     ResponseEntity<?> deleteAccount(@PathVariable String account_id) {
-        if (!account_id.matches("[0-9]+")) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong input!");
-        }
+        digitCheck(account_id);
         if (accountRepositoryDAO.findById(account_id).isEmpty()) throw new AccountNotFound(account_id);
         accountRepositoryDAO.deleteById(account_id);
         return ResponseEntity.status(HttpStatus.OK).body("Account was deleted");
@@ -65,9 +62,7 @@ public class AccountTransactionController {
 
     @PostMapping("/{account_id}/withdraw")
     ResponseEntity<?> withdrawMoney(@PathVariable String account_id, @RequestParam double amount) {
-        if (!account_id.matches("[0-9]+")) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong input!");
-        }
+        digitCheck(account_id);
         Account account = accountRepositoryDAO.findById(account_id).orElseThrow(() ->
                 new AccountNotFound(account_id));
         if (!account.isWithdrawalAllowed()) {
@@ -87,9 +82,7 @@ public class AccountTransactionController {
 
     @PostMapping("/{account_id}/deposit")
     ResponseEntity<?> depositMoney(@PathVariable String account_id, @RequestParam double amount) {
-        if (!account_id.matches("[0-9]+")) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong input!");
-        }
+        digitCheck(account_id);
         if (amount > 0) {
             Account account = accountRepositoryDAO.findById(account_id).orElseThrow(() ->
                     new AccountNotFound(account_id));
@@ -102,9 +95,7 @@ public class AccountTransactionController {
     }
     @GetMapping("/{account_id}/transactions")
     ResponseEntity<?> getAllTransactions(@PathVariable String account_id) {
-        if (!account_id.matches("[0-9]+")) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong input!");
-        }
+        digitCheck(account_id);
         if (accountRepositoryDAO.findById(account_id).isEmpty()) throw new AccountNotFound(account_id);
         List<Transaction> out = new ArrayList<>();
         Iterable<Transaction> iterable = transactionRepositoryDAO.findAll();
@@ -113,5 +104,7 @@ public class AccountTransactionController {
         });
         return ResponseEntity.status(HttpStatus.OK).body(out);
     }
-
+    void digitCheck(String account_id) {
+        if (!account_id.matches("[0-9]+")) throw new AccountBadRequest(account_id);
+    }
 }
