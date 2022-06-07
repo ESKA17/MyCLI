@@ -1,5 +1,4 @@
 package com.example.mycli.client;
-import com.example.mycli.server.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
@@ -53,31 +52,22 @@ public class MyCLI implements CLIUI, WithdrawDepositOperationCLIUI {
     }
 
     @Override
-    public AccountType requestAccountType() {
+    public String requestAccountType() {
         String accountTypes = """
                 Choose account type:
                 [CHECKING, SAVING, FIXED]""";
         System.out.println(accountTypes);
         String input = scanner.nextLine();
-        switch (input) {
-            case "FIXED" -> {
-                CLIUI.accountCreationDisclaimer();
-                return AccountType.FIXED;
-            }
-            case "CHECKING" -> {
-                CLIUI.accountCreationDisclaimer();
-                return AccountType.CHECKING;
-            }
-            case "SAVING" -> {
-                CLIUI.accountCreationDisclaimer();
-                return AccountType.SAVING;
-            }
-            default -> {
-                System.out.println("Wrong account type! Try again!");
-                return null;
-            }
+        if (input.equalsIgnoreCase("checking") || input.equalsIgnoreCase("fixed") ||
+                input.equalsIgnoreCase("saving")) {
+            return input;
+        } else {
+            System.out.println("Wrong input");
+            return null;
         }
     }
+
+
 }
 
 

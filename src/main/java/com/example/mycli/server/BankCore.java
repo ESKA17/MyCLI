@@ -12,9 +12,17 @@ public class BankCore {
     public BankCore(AccountCreationService accountCreationService) {
         this.accountCreationService = accountCreationService;
     }
-    public void createNewAccount(AccountType accountType, String clientID) {
-        this.accountCreationService.create(accountType, id, clientID, lastAccountNumber);
-        incrementLasAccountNumber();
+    public void createNewAccount(String accountTypeStr, String clientID) {
+        AccountType accountType = null;
+        switch (accountTypeStr.toUpperCase()) {
+            case "FIXED" -> accountType = AccountType.FIXED;
+            case "CHECKING" -> accountType = AccountType.CHECKING;
+            case "SAVING" -> accountType = AccountType.SAVING;
+        }
+        if (accountType != null) {
+            this.accountCreationService.create(accountType, id, clientID, lastAccountNumber);
+            incrementLasAccountNumber();
+        }
     }
 
     private void incrementLasAccountNumber() {
