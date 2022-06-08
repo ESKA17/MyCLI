@@ -12,18 +12,17 @@ import javax.validation.constraints.NotEmpty;
 @Entity
 public class UserEntity {
     @Id
-    @NonNull
-    @NotEmpty
+    @GeneratedValue(strategy = GenerationType.IDENTITY  )
+    private int id;
+
+    @Column
     private String login;
-    @NonNull
-    @NotEmpty
+
+    @Column
     private String password;
-    @OneToOne
-    @NonNull
-    @NotEmpty
+
+    @ManyToOne
+    @JoinColumn(name = "UserEntity")
     private RoleEntity roleEntity;
-    @NonNull
-    @NotEmpty
-    private boolean enabled;
 
 }

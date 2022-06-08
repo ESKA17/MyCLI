@@ -1,7 +1,10 @@
 package com.example.mycli.web;
 
+import lombok.AllArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -13,6 +16,9 @@ import java.io.IOException;
 
 import static org.springframework.util.StringUtils.hasText;
 
+@Component
+@Log
+@AllArgsConstructor
 public class JwtFilter extends GenericFilterBean {
 
     public static final String AUTHORIZATION = "Authorization";

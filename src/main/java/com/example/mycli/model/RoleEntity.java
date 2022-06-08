@@ -11,11 +11,9 @@ import javax.validation.constraints.NotEmpty;
 @Entity
 public class RoleEntity {
     @Id
-    @NonNull
-    @NotEmpty
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @Column
     private String name;
-    @NonNull
-    @NotEmpty
-    private String role;
 
 }
