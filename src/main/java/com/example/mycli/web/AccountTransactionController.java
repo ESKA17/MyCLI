@@ -1,8 +1,10 @@
 package com.example.mycli.web;
 
 import com.example.mycli.MyCliApplication;
-import com.example.mycli.dao.AccountRepositoryDAO;
-import com.example.mycli.dao.TransactionRepositoryDAO;
+import com.example.mycli.model.Account;
+import com.example.mycli.model.Transaction;
+import com.example.mycli.repository.AccountRepositoryDAO;
+import com.example.mycli.repository.TransactionRepositoryDAO;
 import com.example.mycli.exceptions.AccountBadRequest;
 import com.example.mycli.exceptions.AccountNotFound;
 import com.example.mycli.server.*;

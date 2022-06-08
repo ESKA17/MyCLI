@@ -1,8 +1,7 @@
 package com.example.mycli.server;
 
+import com.example.mycli.model.Account;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Entity;
 
 @NoArgsConstructor
 public class AccountWithdraw extends Account {

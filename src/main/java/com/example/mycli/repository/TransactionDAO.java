@@ -1,8 +1,8 @@
-package com.example.mycli.dao;
+package com.example.mycli.repository;
 
 import com.example.mycli.server.AccountType;
-import com.example.mycli.server.Transaction;
-import org.springframework.stereotype.Service;
+import com.example.mycli.model.Transaction;
+
 import java.util.List;
 
 public interface TransactionDAO {

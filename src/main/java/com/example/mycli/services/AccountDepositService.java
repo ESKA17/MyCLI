@@ -1,6 +1,6 @@
 package com.example.mycli.services;
 
-import com.example.mycli.server.Account;
+import com.example.mycli.model.Account;
 import org.springframework.stereotype.Service;
 
 @Service

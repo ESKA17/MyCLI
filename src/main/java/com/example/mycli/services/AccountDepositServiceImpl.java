@@ -1,7 +1,7 @@
 package com.example.mycli.services;
 
-import com.example.mycli.dao.AccountDAO;
-import com.example.mycli.server.Account;
+import com.example.mycli.repository.AccountDAO;
+import com.example.mycli.model.Account;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

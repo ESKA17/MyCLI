@@ -1,8 +1,7 @@
-package com.example.mycli.dao;
+package com.example.mycli.repository;
 
-import com.example.mycli.server.Account;
+import com.example.mycli.model.Account;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 
 public interface AccountRepositoryDAO extends CrudRepository<Account, String> {
 

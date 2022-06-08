@@ -1,6 +1,6 @@
 package com.example.mycli.services;
 
-import com.example.mycli.server.Account;
+import com.example.mycli.model.Account;
 import com.example.mycli.server.AccountType;
 import com.example.mycli.server.AccountWithdraw;
 import org.springframework.stereotype.Service;

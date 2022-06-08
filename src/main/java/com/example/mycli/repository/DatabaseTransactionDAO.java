@@ -1,10 +1,8 @@
-package com.example.mycli.dao;
+package com.example.mycli.repository;
 
 import com.example.mycli.server.AccountType;
-import com.example.mycli.server.Transaction;
+import com.example.mycli.model.Transaction;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

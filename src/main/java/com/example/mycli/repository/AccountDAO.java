@@ -1,10 +1,8 @@
-package com.example.mycli.dao;
+package com.example.mycli.repository;
 
-import com.example.mycli.server.Account;
+import com.example.mycli.model.Account;
 import com.example.mycli.server.AccountType;
 import com.example.mycli.server.AccountWithdraw;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

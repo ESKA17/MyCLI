@@ -1,9 +1,7 @@
-package com.example.mycli.server;
+package com.example.mycli.model;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import com.example.mycli.server.AccountType;
 import lombok.*;
-
-
 import javax.persistence.*;
 
 @Builder
@@ -12,7 +10,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Schema
 public class Transaction {
 
 

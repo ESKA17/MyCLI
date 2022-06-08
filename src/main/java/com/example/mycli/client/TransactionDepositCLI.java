@@ -1,6 +1,6 @@
 package com.example.mycli.client;
 
-import com.example.mycli.server.Account;
+import com.example.mycli.model.Account;
 import com.example.mycli.server.TransactionDeposit;
 import com.example.mycli.services.AccountListingService;
 import lombok.AllArgsConstructor;
