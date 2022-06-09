@@ -36,4 +36,3 @@ create table UserEntity
     FOREIGN KEY (role_id) REFERENCES RoleEntity(id)
 );
 
-

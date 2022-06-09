@@ -28,7 +28,7 @@ public class AccountTransactionController {
     private final BankCore bankCore;
     private final MyCliApplication myCliApplication;
 
-    @GetMapping()
+    @GetMapping("/all")
     ResponseEntity<List<Account>> getAllAccounts() {
         Iterable<Account> iterable = accountRepositoryDAO.findAll();
         List<Account> out =  StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());

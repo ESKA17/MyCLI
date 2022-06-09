@@ -34,17 +34,14 @@ public class AuthController {
     }
 
     @PostMapping("/auth")
-    public ResponseEntity<String> auth(@RequestParam String login, @RequestParam String password) {
+    public AuthResponse auth(@RequestParam String login, @RequestParam String password) {
         UserEntity userEntity = userService.findByLoginAndPassword(login, password);
-        if (userEntity != null) {
             String token = jwtProvider.generateToken(userEntity.getLogin());
-            return ResponseEntity.status(HttpStatus.OK).body(new AuthResponse(token).getToken());
-        } else {
-            throw new AuthenticationFailed();
-        }
+            return new AuthResponse(token);
+
     }
 
-    @GetMapping("/auth/users")
+    @GetMapping("/users")
     public List<UserEntity> users() {
         return userEntityRepository.findAll();
 

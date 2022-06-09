@@ -25,17 +25,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtFilter jwtFilter;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.httpBasic().disable()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**").hasRole("USER")
-                .antMatchers("URl").permitAll()
+                .antMatchers( "/accounts/all").hasRole("USER")
+                .antMatchers("/users").hasRole("USER")
+                .antMatchers("/accounts**").permitAll()
                 .antMatchers("/register", "/auth", "/h2-console/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(jwtFilter, AnonymousAuthenticationFilter.class);
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
