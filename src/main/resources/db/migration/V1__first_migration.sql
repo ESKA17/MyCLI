@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS Account
     id NVARCHAR(40)  NOT NULL,
     clientID NVARCHAR(40)  NOT NULL,
     balance DOUBLE,
-    isWithdrawalAllowed BOOLEAN
+    isWithdrawalAllowed BOOLEAN,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS Transaction
@@ -13,29 +14,26 @@ CREATE TABLE IF NOT EXISTS Transaction
     accountType NVARCHAR(20)  NOT NULL,
     id NVARCHAR(40)  NOT NULL,
     clientID NVARCHAR(40)  NOT NULL,
-    amount DOUBLE
+    amount DOUBLE,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id) REFERENCES Account(id)
 );
 
 create table RoleEntity
 (
-    id   INTEGER      not null
-        constraint RoleEntity_pk
-            primary key,
-    name varchar(20) not null
+    id INTEGER NOT NULL,
+    name NVARCHAR(20) NOT NULL,
+    PRIMARY KEY (id)
 );
-
 
 create table UserEntity
 (
-    id  INTEGER not null
-        constraint UserEntity_pk
-            primary key,
-    login    varchar(50),
-    password varchar(500),
-    role_id  integer
-        constraint UserEntity_RoleEntity_id_fk
-            references RoleEntity
+    id INTEGER NOT NULL,
+    login    NVARCHAR(50) NOT NULL,
+    password NVARCHAR(500) NOT NULL,
+    role_id  INTEGER NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (role_id) REFERENCES RoleEntity(id)
 );
 
-create unique index UserEntity_login_uindex
-    on UserEntity (login);
+

@@ -19,7 +19,7 @@ import java.util.Date;
 @Log
 public class JwtProvider {
 
-    @Value("$(jwt.secret)")
+    @Value("$(jwtSecret)")
     private String jwtSecret;
 
     public String generateToken(String login) {

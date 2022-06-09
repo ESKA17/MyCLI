@@ -22,7 +22,7 @@ public class UserEntity {
     private String password;
 
     @ManyToOne
-    @JoinColumn(name = "UserEntity")
+    @JoinColumn(name = "Role_Entity", referencedColumnName = "id")
     private RoleEntity roleEntity;
 
 }
