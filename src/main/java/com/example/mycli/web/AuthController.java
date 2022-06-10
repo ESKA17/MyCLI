@@ -9,10 +9,7 @@ import lombok.AllArgsConstructor;
 import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -25,19 +22,27 @@ public class AuthController {
     private UserEntityRepository userEntityRepository;
 
     @PostMapping("/register")
-    public String registerUser(@RequestParam String login, @RequestParam String password) {
+    public ResponseEntity<String> registerUser(@RequestBody @Valid RegRequest registrationRequest) {
         UserEntity u = new UserEntity();
-        u.setPassword(password);
-        u.setLogin(login);
+        u.setPassword(registrationRequest.getPassword());
+        u.setLogin(registrationRequest.getLogin());
         userService.saveUser(u);
-        return "OK";
+        return ResponseEntity.status(HttpStatus.OK).body("OK");
     }
 
     @PostMapping("/auth")
-    public AuthResponse auth(@RequestParam String login, @RequestParam String password) {
-        UserEntity userEntity = userService.findByLoginAndPassword(login, password);
+    public ResponseEntity<String> auth(@RequestBody @Valid AuthRequest authRequest) {
+        UserEntity userEntity = userService.findByLoginAndPassword(authRequest.getLogin(), authRequest.getPassword());
+        if (userEntity != null) {
             String token = jwtProvider.generateToken(userEntity.getLogin());
-            return new AuthResponse(token);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Successfully authenticated, your token: " +
+            new AuthResponse(token));
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please check your login and/or password");
+        }
+
+
+
 
     }
 
