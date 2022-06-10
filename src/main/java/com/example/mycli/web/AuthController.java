@@ -11,11 +11,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.validation.Valid;
 import java.util.List;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @AllArgsConstructor
+
 public class AuthController {
     private UserService userService;
     private JwtProvider jwtProvider;
@@ -31,12 +34,18 @@ public class AuthController {
     }
 
     @PostMapping("/auth")
-    public ResponseEntity<String> auth(@RequestBody @Valid AuthRequest authRequest) {
+    public ResponseEntity<String> auth(@RequestBody @Valid AuthRequest authRequest,HttpServletResponse httpServletResponse) {
         UserEntity userEntity = userService.findByLoginAndPassword(authRequest.getLogin(), authRequest.getPassword());
         if (userEntity != null) {
             String token = jwtProvider.generateToken(userEntity.getLogin());
+
+            Cookie cookie = new Cookie("token", token);
+            cookie.setHttpOnly(true);
+            httpServletResponse.addCookie(cookie);
+
             return ResponseEntity.status(HttpStatus.ACCEPTED).body("Successfully authenticated, your token: " +
-            new AuthResponse(token));
+            new AuthResponse(token).getToken());
+
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please check your login and/or password");
         }
@@ -45,7 +54,6 @@ public class AuthController {
 
 
     }
-
     @GetMapping("/users")
     public List<UserEntity> users() {
         return userEntityRepository.findAll();

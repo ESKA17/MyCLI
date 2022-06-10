@@ -18,11 +18,11 @@ public class UserService {
     private RoleEntityRepository roleEntityRepository;
     private PasswordEncoder passwordEncoder;
 
-    public UserEntity saveUser(UserEntity userEntity) {
+    public void saveUser(UserEntity userEntity) {
         RoleEntity userRole = roleEntityRepository.findByName("ROLE_USER");
         userEntity.setRoleEntity(userRole);
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-        return userEntityRepository.save(userEntity);
+        userEntityRepository.save(userEntity);
     }
 
     public UserEntity findByLogin(String login) {
@@ -30,7 +30,7 @@ public class UserService {
     }
 
     public UserEntity findByLoginAndPassword(String login, String password) {
-        UserEntity userEntity = findByLogin(login);
+        UserEntity userEntity = userEntityRepository.findByLogin(login);
         System.out.println(userEntity + " - user entity");
         if (userEntity != null) {
             if (passwordEncoder.matches(password, userEntity.getPassword())) {

@@ -35,4 +35,6 @@ create table UserEntity
     PRIMARY KEY (id),
     FOREIGN KEY (role_id) REFERENCES RoleEntity(id)
 );
+-- INSERT INTO Role_Entity VALUES ( 1, 'ROLE_ADMIN' );
+-- INSERT INTO Role_Entity VALUES ( 2, 'ROLE_USER' );
 
