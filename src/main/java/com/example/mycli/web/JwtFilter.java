@@ -1,7 +1,6 @@
 package com.example.mycli.web;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,7 +24,6 @@ import static org.springframework.util.StringUtils.hasText;
 @AllArgsConstructor
 public class JwtFilter extends GenericFilterBean {
 
-    public static final String AUTHORIZATION = "Authorization";
     private JwtProvider jwtProvider;
     private CustomUserDetailsService customUserDetailsService;
 

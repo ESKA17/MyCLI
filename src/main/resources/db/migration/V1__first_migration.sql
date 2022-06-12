@@ -19,22 +19,22 @@ CREATE TABLE IF NOT EXISTS Transaction
     FOREIGN KEY (id) REFERENCES Account(id)
 );
 
-create table RoleEntity
+create table Role_Entity
 (
     id INTEGER NOT NULL,
     name NVARCHAR(20) NOT NULL,
     PRIMARY KEY (id)
 );
 
-create table UserEntity
+create table User_Entity
 (
     id INTEGER NOT NULL,
     login    NVARCHAR(50) NOT NULL,
     password NVARCHAR(500) NOT NULL,
     role_id  INTEGER NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (role_id) REFERENCES RoleEntity(id)
+    FOREIGN KEY (role_id) REFERENCES Role_Entity(id)
 );
--- INSERT INTO Role_Entity VALUES ( 1, 'ROLE_ADMIN' );
--- INSERT INTO Role_Entity VALUES ( 2, 'ROLE_USER' );
+INSERT INTO Role_Entity VALUES ( 1, 'ROLE_ADMIN' );
+INSERT INTO Role_Entity VALUES ( 2, 'ROLE_USER' );
 

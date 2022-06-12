@@ -20,7 +20,7 @@ import java.util.function.Function;
 @Log
 public class JwtProvider {
 
-    @Value("$(jwtSecret)")
+    @Value("${jwtSecret}")
     private String jwtSecret;
 
     public String generateToken(String login) {
