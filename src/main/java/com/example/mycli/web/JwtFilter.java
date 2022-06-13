@@ -32,12 +32,14 @@ public class JwtFilter extends GenericFilterBean {
             throws IOException, ServletException {
         logger.info("do filter...");
         String token = getTokenFromRequest((HttpServletRequest) servletRequest);
-        if (jwtProvider.validateToken(token)) {
-            String userLogin = jwtProvider.getLoginFromToken(token);
-            CustomUserDetails customUserDetails = customUserDetailsService.loadUserByUsername(userLogin);
-            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(customUserDetails,
-                    null, customUserDetails.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(auth);
+        if (token != null) {
+            if (jwtProvider.validateToken(token)) {
+                String userLogin = jwtProvider.getLoginFromToken(token);
+                CustomUserDetails customUserDetails = customUserDetailsService.loadUserByUsername(userLogin);
+                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(customUserDetails,
+                        null, customUserDetails.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(auth);
+            }
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }
@@ -52,7 +54,7 @@ public class JwtFilter extends GenericFilterBean {
                     token = cookie.getValue();
                     username = jwtProvider.extractUsername(token);
                 }
-                if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                if (username != null && SecurityContextHolder.getContext().getAuthentication() == null || token != null) {
                     UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
                     if (Boolean.TRUE.equals(jwtProvider.validateToken(token))) {
                         UsernamePasswordAuthenticationToken authenticationToken =

@@ -28,6 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtFilter jwtFilter;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests().
+                antMatchers("/register", "/auth", "/h2-console/**", "/swagger-ui.html", "/swagger-ui/**",
+                        "/v3/api-docs", "/v3/api-docs/**").permitAll();
         http.
                 httpBasic().disable()
                 .csrf().disable()
@@ -36,24 +39,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers( "/accounts/**").hasRole("USER")
                 .antMatchers("/users").hasRole("USER")
-                .antMatchers("/accounts/all").hasRole("USER")
+                .antMatchers("/accounts").hasRole("USER")
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-        http.authorizeRequests().
-                antMatchers("/register", "/auth", "/h2-console/**", "/swagger-ui.html", "/swagger-ui/**",
-                "/v3/api-docs", "/v3/api-docs/**", "/cookies/cookielogout").permitAll();
-        http
-                .logout(logout -> logout
-                        .logoutUrl("/cookies/cookielogout")
-                        .addLogoutHandler((request, response, auth) -> {
-                            for (Cookie cookie : request.getCookies()) {
-                                String cookieName = cookie.getName();
-                                Cookie cookieToDelete = new Cookie(cookieName, null);
-                                cookieToDelete.setMaxAge(0);
-                                response.addCookie(cookieToDelete);
-                            }
-                        })
-                );
     }
     @Override
     @Bean
