@@ -2,10 +2,10 @@ package com.example.mycli.client;
 
 import com.example.mycli.server.BankCore;
 import com.example.mycli.services.AccountListingService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class AccountBasicCLI {
     private final CreateAccountOperationUI createAccountOperationUI;

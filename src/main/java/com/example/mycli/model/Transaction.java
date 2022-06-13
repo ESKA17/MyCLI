@@ -19,7 +19,7 @@ public class Transaction {
     private AccountType accountType;
     private String id;
     private String clientID;
-    private double amount;
+    private Double amount;
 
     @Override
     public String toString() {

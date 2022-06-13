@@ -1,17 +1,16 @@
 package com.example.mycli.services;
 
-import com.example.mycli.repository.AccountDAO;
+import com.example.mycli.repository.AccountRepositoryInterface;
 import com.example.mycli.model.Account;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class AccountDepositServiceImpl implements AccountDepositService{
 
-    private AccountDAO accountDAO;
+    private final AccountRepositoryInterface accountDAO;
     @Override
     public void deposit(double amount, Account account) {
         BigDecimal balance = BigDecimal.valueOf(account.getBalance());

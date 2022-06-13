@@ -4,26 +4,23 @@ package com.example.mycli.web;
 
 import com.example.mycli.model.UserEntity;
 import com.example.mycli.repository.UserEntityRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Objects;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 
 public class AuthController {
-    private UserService userService;
-    private JwtProvider jwtProvider;
-    private UserEntityRepository userEntityRepository;
+    private final UserService userService;
+    private final JwtProvider jwtProvider;
+    private final UserEntityRepository userEntityRepository;
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody @Valid RegRequest registrationRequest) {

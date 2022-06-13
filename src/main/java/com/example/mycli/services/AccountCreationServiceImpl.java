@@ -1,12 +1,14 @@
 package com.example.mycli.services;
 import com.example.mycli.model.Account;
+import com.example.mycli.repository.AccountRepositoryInterface;
 import com.example.mycli.server.*;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-@AllArgsConstructor
+
+@RequiredArgsConstructor
 @Service
 public class AccountCreationServiceImpl implements AccountCreationService {
-    private final com.example.mycli.repository.AccountDAO accountDAO;
+    private final AccountRepositoryInterface accountDAO;
     @Override
     public void create(AccountType accountType, long bankID, String clientID, long accountID) {
         String accountNumber = String.format("%03d%06d", bankID, accountID);

@@ -1,8 +1,5 @@
 package com.example.mycli.client;
 
-import org.springframework.stereotype.Service;
-
-@Service
 public interface CLIUI extends CreateAccountOperationUI {
     static void greeting() {
         System.out.println("Welcome to CLI bank service!");

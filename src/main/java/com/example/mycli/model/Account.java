@@ -1,7 +1,6 @@
 package com.example.mycli.model;
 
 import com.example.mycli.server.AccountType;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.persistence.*;

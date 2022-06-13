@@ -1,11 +1,10 @@
 CREATE TABLE IF NOT EXISTS ACCOUNT
 (
     accountType NVARCHAR(20)  NOT NULL,
-    id NVARCHAR(40)  NOT NULL,
+    id NVARCHAR(20)  NOT NULL,
     clientID NVARCHAR(40)  NOT NULL,
     balance DOUBLE,
-    isWithdrawalAllowed BOOLEAN,
-    PRIMARY KEY (id)
+    withdrawalAllowed BOOLEAN
 );
 
 CREATE TABLE IF NOT EXISTS TRANSACTION
@@ -14,9 +13,7 @@ CREATE TABLE IF NOT EXISTS TRANSACTION
     accountType NVARCHAR(20)  NOT NULL,
     id NVARCHAR(40)  NOT NULL,
     clientID NVARCHAR(40)  NOT NULL,
-    amount DOUBLE,
-    PRIMARY KEY (id),
-    FOREIGN KEY (id) REFERENCES ACCOUNT(id)
+    amount DOUBLE
 );
 
 create table ROLEENTITY

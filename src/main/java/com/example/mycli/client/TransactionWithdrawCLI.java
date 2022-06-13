@@ -3,15 +3,15 @@ package com.example.mycli.client;
 import com.example.mycli.server.AccountWithdraw;
 import com.example.mycli.server.TransactionWithdraw;
 import com.example.mycli.services.AccountListingService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class TransactionWithdrawCLI {
-    TransactionWithdraw transactionWithdraw;
-    WithdrawDepositOperationCLIUI withdrawDepositOperationCLIUI;
-    AccountListingService accountListingService;
+    private final TransactionWithdraw transactionWithdraw;
+    private final WithdrawDepositOperationCLIUI withdrawDepositOperationCLIUI;
+    private final AccountListingService accountListingService;
 
     public void withdrawMoney(String clientID) {
         String accountNumber = withdrawDepositOperationCLIUI.requestClientAccountNumber();

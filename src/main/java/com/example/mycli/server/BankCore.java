@@ -1,17 +1,18 @@
 package com.example.mycli.server;
 
+import com.example.mycli.repository.AccountRepository;
 import com.example.mycli.services.AccountCreationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class BankCore {
     private static final long id = 1;
     private static long lastAccountNumber = 1;
     private final AccountCreationService accountCreationService;
+    private final AccountRepository accountRepository;
 
-    public BankCore(AccountCreationService accountCreationService) {
-        this.accountCreationService = accountCreationService;
-    }
     public void createNewAccount(String accountTypeStr, String clientID) {
         AccountType accountType = null;
         switch (accountTypeStr.toUpperCase()) {

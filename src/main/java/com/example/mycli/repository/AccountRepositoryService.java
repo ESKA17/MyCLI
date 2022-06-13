@@ -3,7 +3,7 @@ package com.example.mycli.repository;
 import com.example.mycli.model.Account;
 import com.example.mycli.server.AccountType;
 import com.example.mycli.server.AccountWithdraw;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-@AllArgsConstructor
-public class DatabaseAccountDAO implements AccountDAO{
-    private final AccountRepositoryDAO accountRepositoryDAO;
+@RequiredArgsConstructor
+public class AccountRepositoryService implements AccountRepositoryInterface {
+    private final AccountRepository accountRepository;
     @Override
     public List<Account> getClientAccounts(String clientID) {
         List<Account> accountList = new ArrayList<>();
-        Iterable<Account> tmpMemory = accountRepositoryDAO.findAll();
+        Iterable<Account> tmpMemory = accountRepository.findAll();
         tmpMemory.forEach(account -> {
             if (Objects.equals(account.getClientID(), clientID)) accountList.add(account);
         });
@@ -26,14 +26,12 @@ public class DatabaseAccountDAO implements AccountDAO{
 
     @Override
     public void createNewAccount(Account account) {
-        accountRepositoryDAO.save(account);
+        accountRepository.save(account);
     }
 
     @Override
     public void updateAccount(Account account) {
-        String updateAccountID = account.getId();
-        accountRepositoryDAO.deleteById(updateAccountID);
-        accountRepositoryDAO.save(account);
+        accountRepository.save(account);
     }
 
     @Override

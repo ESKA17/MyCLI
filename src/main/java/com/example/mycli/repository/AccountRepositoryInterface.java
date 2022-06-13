@@ -6,7 +6,7 @@ import com.example.mycli.server.AccountWithdraw;
 
 import java.util.List;
 
-public interface AccountDAO {
+public interface AccountRepositoryInterface {
     List<Account> getClientAccounts(String clientID);
 
     void createNewAccount(Account account);

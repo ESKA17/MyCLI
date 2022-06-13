@@ -4,17 +4,17 @@ import com.example.mycli.model.RoleEntity;
 import com.example.mycli.model.UserEntity;
 import com.example.mycli.repository.RoleEntityRepository;
 import com.example.mycli.repository.UserEntityRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserService {
 
-    private UserEntityRepository userEntityRepository;
-    private RoleEntityRepository roleEntityRepository;
-    private PasswordEncoder passwordEncoder;
+    private final UserEntityRepository userEntityRepository;
+    private final RoleEntityRepository roleEntityRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public void saveUser(UserEntity userEntity) {
         RoleEntity userRole = roleEntityRepository.findByName("ROLE_USER");
