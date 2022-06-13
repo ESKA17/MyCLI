@@ -49,24 +49,26 @@ public class AccountTransactionController {
     @GetMapping("/{account_id}")
     ResponseEntity<?> getAccount(@PathVariable String account_id) {
         digitCheck(account_id);
-        Account out = accountRepository.findById(account_id).orElseThrow(() ->
-                new AccountNotFound(account_id));
+        Account out = accountRepository.findAccountById(account_id);
+        if(out == null) throw new AccountNotFound(account_id);
         return ResponseEntity.status(HttpStatus.OK).body(out);
     }
 
     @DeleteMapping("/{account_id}")
     ResponseEntity<?> deleteAccount(@PathVariable String account_id) {
         digitCheck(account_id);
-        if (accountRepository.findById(account_id).isEmpty()) throw new AccountNotFound(account_id);
-        accountRepository.deleteById(account_id);
+        if (accountRepository.findAccountById(account_id) == null) throw new AccountNotFound(account_id);
+        Account account = accountRepository.findAccountById(account_id);
+        Long id = account.getMain_id();
+        accountRepository.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).body("Account was deleted");
     }
 
     @PostMapping("/{account_id}/withdraw")
     ResponseEntity<?> withdrawMoney(@PathVariable String account_id, @RequestParam double amount) {
         digitCheck(account_id);
-        Account account = accountRepository.findById(account_id).orElseThrow(() ->
-                new AccountNotFound(account_id));
+        Account account = accountRepository.findAccountById(account_id);
+        if(account == null) throw new AccountNotFound(account_id);
         if (!account.isWithdrawalAllowed()) {
             return ResponseEntity.status(HttpStatus.OK).body("Withdrawal is not allowed!");
         }
@@ -86,8 +88,8 @@ public class AccountTransactionController {
     ResponseEntity<?> depositMoney(@PathVariable String account_id, @RequestParam double amount) {
         digitCheck(account_id);
         if (amount > 0) {
-            Account account = accountRepository.findById(account_id).orElseThrow(() ->
-                    new AccountNotFound(account_id));
+            Account account = accountRepository.findAccountById(account_id);
+            if(account == null) throw new AccountNotFound(account_id);
             transactionDeposit.execute(account, amount);
             return ResponseEntity.status(HttpStatus.OK).body(String.format("%.2f", amount) +
                     "$ transferred to " + account_id + " account");
@@ -98,7 +100,7 @@ public class AccountTransactionController {
     @GetMapping("/{account_id}/transactions")
     ResponseEntity<?> getAllTransactions(@PathVariable String account_id) {
         digitCheck(account_id);
-        if (accountRepository.findById(account_id).isEmpty()) throw new AccountNotFound(account_id);
+        if (accountRepository.findAccountById(account_id) == null) throw new AccountNotFound(account_id);
         List<Transaction> out = new ArrayList<>();
         Iterable<Transaction> iterable = transactionRepository.findAll();
         iterable.forEach(transaction -> {

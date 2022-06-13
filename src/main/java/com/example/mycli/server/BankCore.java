@@ -1,5 +1,6 @@
 package com.example.mycli.server;
 
+import com.example.mycli.model.Account;
 import com.example.mycli.repository.AccountRepository;
 import com.example.mycli.services.AccountCreationService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,12 @@ public class BankCore {
             case "SAVING" -> accountType = AccountType.SAVING;
         }
         if (accountType != null) {
+            if (accountRepository.count() != 0) {
+                Account account = accountRepository.findTopByOrderByIdDesc();
+                String lastIDString = account.getId();
+                long lastIDLong = Long.parseLong(lastIDString);
+                lastAccountNumber = lastIDLong % 1000000 + 1;
+            }
             this.accountCreationService.create(accountType, id, clientID, lastAccountNumber);
             incrementLasAccountNumber();
         }

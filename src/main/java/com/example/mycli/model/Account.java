@@ -7,17 +7,29 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Account {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "Sequence_gen", allocationSize = 1)
+    private Long main_id;
+
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
-    private @Id String id;
+    private String id;
     private String clientID;
-    private double balance;
-    private boolean withdrawalAllowed;
+    private Double balance;
+    private Boolean withdrawalAllowed;
+
+    public Account(AccountType accountType, String id, String clientID, Double balance, Boolean withdrawalAllowed) {
+        this.accountType = accountType;
+        this.id = id;
+        this.clientID = clientID;
+        this.balance = balance;
+        this.withdrawalAllowed = withdrawalAllowed;
+    }
 
     public boolean isWithdrawalAllowed() {
         return withdrawalAllowed;

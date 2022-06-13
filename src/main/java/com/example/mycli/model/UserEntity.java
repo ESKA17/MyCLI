@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )
-    private int id;
+    private Integer id;
 
     @Column
     private String login;
