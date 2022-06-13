@@ -14,5 +14,4 @@ public class RoleEntity {
     private int id;
     @Column
     private String name;
-
 }

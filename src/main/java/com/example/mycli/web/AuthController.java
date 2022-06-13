@@ -2,11 +2,9 @@ package com.example.mycli.web;
 
 
 
-import com.example.mycli.exceptions.AuthenticationFailed;
 import com.example.mycli.model.UserEntity;
 import com.example.mycli.repository.UserEntityRepository;
 import lombok.AllArgsConstructor;
-import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -2,7 +2,6 @@ package com.example.mycli.model;
 
 import lombok.*;
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 
 @Builder
 @Getter
@@ -12,7 +11,7 @@ import javax.validation.constraints.NotEmpty;
 @Entity
 public class UserEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY  )
+    @GeneratedValue(strategy = GenerationType.AUTO  )
     private int id;
 
     @Column
@@ -22,7 +21,6 @@ public class UserEntity {
     private String password;
 
     @ManyToOne
-    @JoinColumn(name = "Role_Entity")
     private RoleEntity roleEntity;
 
 }

@@ -5,8 +5,6 @@ import com.example.mycli.model.UserEntity;
 import com.example.mycli.repository.RoleEntityRepository;
 import com.example.mycli.repository.UserEntityRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

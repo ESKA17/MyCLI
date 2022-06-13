@@ -32,17 +32,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers( "/accounts/all").hasRole("USER")
+                .antMatchers("/register", "/auth", "/h2-console/**", "/swagger-ui.html", "/swagger-ui/**",
+                        "/v3/api-docs", "/v3/api-docs/**").permitAll()
+                .antMatchers( "/accounts/**").hasRole("USER")
                 .antMatchers("/users").authenticated()
-                .antMatchers("/accounts**").permitAll()
-                .antMatchers("/register", "/auth", "/h2-console/**").permitAll()
+                .antMatchers("/accounts/all").hasRole("USER")
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-    }
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
     }
     @Bean
     public PasswordEncoder passwordEncoder() {

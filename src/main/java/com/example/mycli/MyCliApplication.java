@@ -1,8 +1,6 @@
 package com.example.mycli;
 
 import com.example.mycli.client.*;
-import com.example.mycli.model.RoleEntity;
-import com.example.mycli.model.UserEntity;
 import com.example.mycli.web.UserService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
