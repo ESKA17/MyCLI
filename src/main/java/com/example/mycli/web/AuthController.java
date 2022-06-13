@@ -43,14 +43,9 @@ public class AuthController {
 
             return ResponseEntity.status(HttpStatus.ACCEPTED).body("Successfully authenticated, your token: " +
             new AuthResponse(token).getToken());
-
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please check your login and/or password");
         }
-
-
-
-
     }
     @GetMapping("/users")
     public List<UserEntity> users() {

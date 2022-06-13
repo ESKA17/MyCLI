@@ -18,6 +18,8 @@ import org.springframework.security.web.authentication.AnonymousAuthenticationFi
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.servlet.http.Cookie;
+
 @Configuration
 @AllArgsConstructor
 @EnableWebSecurity
@@ -32,13 +34,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/register", "/auth", "/h2-console/**", "/swagger-ui.html", "/swagger-ui/**",
-                        "/v3/api-docs", "/v3/api-docs/**").permitAll()
                 .antMatchers( "/accounts/**").hasRole("USER")
-                .antMatchers("/users").authenticated()
+                .antMatchers("/users").hasRole("USER")
                 .antMatchers("/accounts/all").hasRole("USER")
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        http.authorizeRequests().
+                antMatchers("/register", "/auth", "/h2-console/**", "/swagger-ui.html", "/swagger-ui/**",
+                "/v3/api-docs", "/v3/api-docs/**", "/cookies/cookielogout").permitAll();
+        http
+                .logout(logout -> logout
+                        .logoutUrl("/cookies/cookielogout")
+                        .addLogoutHandler((request, response, auth) -> {
+                            for (Cookie cookie : request.getCookies()) {
+                                String cookieName = cookie.getName();
+                                Cookie cookieToDelete = new Cookie(cookieName, null);
+                                cookieToDelete.setMaxAge(0);
+                                response.addCookie(cookieToDelete);
+                            }
+                        })
+                );
+    }
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
     @Bean
     public PasswordEncoder passwordEncoder() {
