@@ -97,7 +97,7 @@ public class AccountTransactionController {
     @GetMapping("/{account_id}/transactions")
     ResponseEntity<?> getAllTransactions(@PathVariable String account_id) {
         if (!account_id.matches("\\d+")) throw new AccountBadRequest(account_id);
-        if (accountRepository.findAccountById(account_id) == null) throw new AccountNotFound(account_id);
+        if (transactionRepository.findTransactionById(account_id) == null) throw new AccountNotFound(account_id);
         return ResponseEntity.status(HttpStatus.OK).body(transactionRepository.findTransactionById(account_id));
     }
 

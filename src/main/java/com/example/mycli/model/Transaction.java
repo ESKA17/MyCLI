@@ -12,7 +12,6 @@ import javax.persistence.*;
 @Entity
 public class Transaction {
 
-
     private @Id long transactionID;
     private String operation;
     @Enumerated(EnumType.STRING)

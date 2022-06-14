@@ -1,15 +1,10 @@
 package com.example.mycli;
 
 import com.example.mycli.client.*;
-import com.example.mycli.repository.AccountRepository;
-import com.example.mycli.web.UserService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.boot.CommandLineRunner;
-
-import javax.annotation.PostConstruct;
-
 @SpringBootApplication
 public class MyCliApplication implements CommandLineRunner {
     private final ApplicationContext context;
