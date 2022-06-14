@@ -48,7 +48,7 @@ public class AccountRepositoryService implements AccountRepositoryInterface {
     public AccountWithdraw getClientWithdrawAccount(String clientID, String accountID) {
         List<Account> accountList = new ArrayList<>(getClientAccounts(clientID));
         return (AccountWithdraw) accountList.stream().filter(account -> Objects.equals(account.getId(), accountID)).
-                filter(Account::isWithdrawalAllowed).findFirst().orElse(null);
+                filter(Account::getWithdrawalAllowed).findFirst().orElse(null);
     }
 
     @Override

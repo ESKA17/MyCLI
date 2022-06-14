@@ -2,7 +2,6 @@ package com.example.mycli.web;
 
 import com.example.mycli.MyCliApplication;
 import com.example.mycli.model.Account;
-import com.example.mycli.model.Transaction;
 import com.example.mycli.repository.AccountRepository;
 import com.example.mycli.repository.TransactionRepository;
 import com.example.mycli.exceptions.AccountBadRequest;
@@ -42,13 +41,13 @@ public class AccountTransactionController {
             bankCore.createNewAccount(accountType, myCliApplication.clientID);
             return ResponseEntity.status(HttpStatus.OK).body(accountType.toUpperCase() + " account was created\n");
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong input!\n");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong input\n");
         }
     }
 
     @GetMapping("/{account_id}")
     ResponseEntity<?> getAccount(@PathVariable String account_id) {
-        digitCheck(account_id);
+        if (!account_id.matches("\\d+")) throw new AccountBadRequest(account_id);
         Account out = accountRepository.findAccountById(account_id);
         if(out == null) throw new AccountNotFound(account_id);
         return ResponseEntity.status(HttpStatus.OK).body(out);
@@ -56,20 +55,18 @@ public class AccountTransactionController {
 
     @DeleteMapping("/{account_id}")
     ResponseEntity<?> deleteAccount(@PathVariable String account_id) {
-        digitCheck(account_id);
+        if (!account_id.matches("\\d+")) throw new AccountBadRequest(account_id);
         if (accountRepository.findAccountById(account_id) == null) throw new AccountNotFound(account_id);
-        Account account = accountRepository.findAccountById(account_id);
-        Long id = account.getMain_id();
-        accountRepository.deleteById(id);
+        accountRepository.deleteById(account_id);
         return ResponseEntity.status(HttpStatus.OK).body("Account was deleted");
     }
 
     @PostMapping("/{account_id}/withdraw")
     ResponseEntity<?> withdrawMoney(@PathVariable String account_id, @RequestParam double amount) {
-        digitCheck(account_id);
+        if (!account_id.matches("\\d+")) throw new AccountBadRequest(account_id);
         Account account = accountRepository.findAccountById(account_id);
         if(account == null) throw new AccountNotFound(account_id);
-        if (!account.isWithdrawalAllowed()) {
+        if (!account.getWithdrawalAllowed()) {
             return ResponseEntity.status(HttpStatus.OK).body("Withdrawal is not allowed!");
         }
         if (amount <= 0) {
@@ -86,7 +83,7 @@ public class AccountTransactionController {
 
     @PostMapping("/{account_id}/deposit")
     ResponseEntity<?> depositMoney(@PathVariable String account_id, @RequestParam double amount) {
-        digitCheck(account_id);
+        if (!account_id.matches("\\d+")) throw new AccountBadRequest(account_id);
         if (amount > 0) {
             Account account = accountRepository.findAccountById(account_id);
             if(account == null) throw new AccountNotFound(account_id);
@@ -99,16 +96,9 @@ public class AccountTransactionController {
     }
     @GetMapping("/{account_id}/transactions")
     ResponseEntity<?> getAllTransactions(@PathVariable String account_id) {
-        digitCheck(account_id);
-        if (accountRepository.findAccountById(account_id) == null) throw new AccountNotFound(account_id);
-        List<Transaction> out = new ArrayList<>();
-        Iterable<Transaction> iterable = transactionRepository.findAll();
-        iterable.forEach(transaction -> {
-            if (Objects.equals(transaction.getId(), account_id)) out.add(transaction);
-        });
-        return ResponseEntity.status(HttpStatus.OK).body(out);
-    }
-    void digitCheck(String account_id) {
         if (!account_id.matches("\\d+")) throw new AccountBadRequest(account_id);
+        if (accountRepository.findAccountById(account_id) == null) throw new AccountNotFound(account_id);
+        return ResponseEntity.status(HttpStatus.OK).body(transactionRepository.findTransactionById(account_id));
     }
+
 }

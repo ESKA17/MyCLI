@@ -1,7 +1,5 @@
 package com.example.mycli.web;
 
-
-
 import com.example.mycli.model.UserEntity;
 import com.example.mycli.repository.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,14 +28,15 @@ public class AuthController {
             u.setPassword(registrationRequest.getPassword());
             u.setLogin(registrationRequest.getLogin());
             userService.saveUser(u);
-            return ResponseEntity.status(HttpStatus.OK).body("OK");
+            return ResponseEntity.status(HttpStatus.OK).body("You were successfully registered");
         } else {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Login is already taken");
         }
     }
 
     @PostMapping("/auth")
-    public ResponseEntity<String> auth(@RequestBody @Valid AuthRequest authRequest,HttpServletResponse httpServletResponse) {
+    public ResponseEntity<String> auth(@RequestBody @Valid AuthRequest authRequest,
+                                       HttpServletResponse httpServletResponse) {
         UserEntity userEntity = userService.findByLoginAndPassword(authRequest.getLogin(), authRequest.getPassword());
         if (userEntity != null) {
             String token = jwtProvider.generateToken(userEntity.getLogin());

@@ -2,38 +2,25 @@ package com.example.mycli.model;
 
 import com.example.mycli.server.AccountType;
 import lombok.*;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Component
+@Scope("prototype")
 public class Account {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "Sequence_gen", allocationSize = 1)
-    private Long main_id;
-
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
-    private String id;
+    private @Id String id;
     private String clientID;
     private Double balance;
     private Boolean withdrawalAllowed;
-
-    public Account(AccountType accountType, String id, String clientID, Double balance, Boolean withdrawalAllowed) {
-        this.accountType = accountType;
-        this.id = id;
-        this.clientID = clientID;
-        this.balance = balance;
-        this.withdrawalAllowed = withdrawalAllowed;
-    }
-
-    public boolean isWithdrawalAllowed() {
-        return withdrawalAllowed;
-    }
 
     @Override
     public String toString() {

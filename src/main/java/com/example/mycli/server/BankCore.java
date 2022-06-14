@@ -1,6 +1,5 @@
 package com.example.mycli.server;
 
-import com.example.mycli.model.Account;
 import com.example.mycli.repository.AccountRepository;
 import com.example.mycli.services.AccountCreationService;
 import lombok.RequiredArgsConstructor;
@@ -10,9 +9,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BankCore {
     private static final long id = 1;
-    private static long lastAccountNumber = 1;
     private final AccountCreationService accountCreationService;
     private final AccountRepository accountRepository;
+
 
     public void createNewAccount(String accountTypeStr, String clientID) {
         AccountType accountType = null;
@@ -22,18 +21,9 @@ public class BankCore {
             case "SAVING" -> accountType = AccountType.SAVING;
         }
         if (accountType != null) {
-            if (accountRepository.count() != 0) {
-                Account account = accountRepository.findTopByOrderByIdDesc();
-                String lastIDString = account.getId();
-                long lastIDLong = Long.parseLong(lastIDString);
-                lastAccountNumber = lastIDLong % 1000000 + 1;
-            }
+            long lastAccountNumber = accountRepository.getNextSeriesId();
             this.accountCreationService.create(accountType, id, clientID, lastAccountNumber);
-            incrementLasAccountNumber();
         }
     }
 
-    private void incrementLasAccountNumber() {
-        lastAccountNumber++;
-    }
 }

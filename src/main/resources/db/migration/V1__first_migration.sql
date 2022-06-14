@@ -1,7 +1,8 @@
+CREATE SEQUENCE account_seq
+    START WITH 1
+    INCREMENT BY 1;
 CREATE TABLE IF NOT EXISTS ACCOUNT
-(
-    main_id LONG NOT NULL,
-    accountType NVARCHAR(20)  NOT NULL,
+(    accountType NVARCHAR(20)  NOT NULL,
     id NVARCHAR(20)  NOT NULL,
     clientID NVARCHAR(40)  NOT NULL,
     balance DOUBLE,
