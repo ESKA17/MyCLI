@@ -1,23 +1,6 @@
 CREATE SEQUENCE account_seq
     START WITH 1
     INCREMENT BY 1;
-CREATE TABLE IF NOT EXISTS ACCOUNT
-(    accountType NVARCHAR(20)  NOT NULL,
-    id NVARCHAR(20)  NOT NULL,
-    clientID NVARCHAR(40)  NOT NULL,
-    balance DOUBLE,
-    withdrawalAllowed BOOLEAN
-);
-
-CREATE TABLE IF NOT EXISTS TRANSACTION
-(   transactionID LONG NOT NULL,
-    operation NVARCHAR(40) NOT NULL,
-    accountType NVARCHAR(20)  NOT NULL,
-    id NVARCHAR(40)  NOT NULL,
-    clientID NVARCHAR(40)  NOT NULL,
-    amount DOUBLE
-);
-
 create table ROLEENTITY
 (
     id INTEGER NOT NULL,
@@ -34,5 +17,25 @@ create table USERENTITY
     PRIMARY KEY (id),
     FOREIGN KEY (ROLEENTITY_ID) REFERENCES ROLEENTITY(id)
 );
+CREATE TABLE IF NOT EXISTS ACCOUNT
+(   accountType NVARCHAR(20)  NOT NULL,
+    id NVARCHAR(20)  NOT NULL,
+    clientID NVARCHAR(40)  NOT NULL,
+    balance DOUBLE,
+    withdrawalAllowed BOOLEAN,
+    userentity_id INTEGER,
+    PRIMARY KEY (id),
+    FOREIGN KEY (userentity_id) REFERENCES USERENTITY(id)
+);
+
+CREATE TABLE IF NOT EXISTS TRANSACTION
+(   transactionID LONG NOT NULL,
+    operation NVARCHAR(40) NOT NULL,
+    accountType NVARCHAR(20)  NOT NULL,
+    id NVARCHAR(40)  NOT NULL,
+    clientID NVARCHAR(40)  NOT NULL,
+    amount DOUBLE
+);
+
 INSERT INTO ROLEENTITY VALUES ( 1, 'ROLE_USER' );
 
