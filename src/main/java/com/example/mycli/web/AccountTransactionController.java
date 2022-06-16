@@ -86,9 +86,9 @@ public class AccountTransactionController {
 
     @PostMapping("/{account_id}/transfer")
     ResponseEntity<?> transferMoney(@PathVariable String account_id, @RequestBody @Valid TransferRequest transfer) {
-        withdrawMoney(account_id, transfer.getAmount());
+        ResponseEntity<?> answerWithdraw = withdrawMoney(account_id, transfer.getAmount());
         depositMoney(transfer.getDestination_account_id(), transfer.getAmount());
-        return ResponseEntity.status(HttpStatus.OK).body("OK");
+        return answerWithdraw;
     }
 
     @PostMapping("/{account_id}/deposit")

@@ -8,7 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 @SpringBootApplication
 public class MyCliApplication implements CommandLineRunner {
     private final ApplicationContext context;
-    public final String clientID = "1";
+    public String clientID = "1";
 
     public MyCliApplication(ApplicationContext context) {
         this.context = context;
@@ -25,6 +25,7 @@ public class MyCliApplication implements CommandLineRunner {
         TransactionWithdrawCLI transactionWithdrawCLI = context.getBean(TransactionWithdrawCLI.class);
         TransferCLI transferCLI = context.getBean(TransferCLI.class);
         AccountRegistrationCLI accountRegistrationCLI = context.getBean(AccountRegistrationCLI.class);
+        AccountAuthenticationCLI accountAuthenticationCLI = context.getBean(AccountAuthenticationCLI.class);
 
         CLIUI.greeting();
         CLIUI.authentication();
@@ -33,7 +34,10 @@ public class MyCliApplication implements CommandLineRunner {
         while (regAuth) {
             switch (myCLI.scanner.nextLine()) {
                 case "1" -> accountRegistrationCLI.registerAccountRequest();
-                case "2" -> accountBasicCLI.createAccountRequest(clientID);
+                case "2" -> {
+                    clientID = accountAuthenticationCLI.registerAccountRequest();
+                    if (clientID != null) regAuth = false;
+                }
                 case "3" -> CLIUI.helpTextAuth();
                 case "4" -> regAuth = CLIUI.exit();
                 default -> System.out.println("Wrong input!");

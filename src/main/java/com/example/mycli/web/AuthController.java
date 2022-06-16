@@ -5,9 +5,11 @@ import com.example.mycli.repository.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
@@ -37,6 +39,8 @@ public class AuthController {
     @PostMapping("/auth")
     public ResponseEntity<String> auth(@RequestBody @Valid AuthRequest authRequest,
                                        HttpServletResponse httpServletResponse) {
+        if (userEntityRepository.findByLogin(authRequest.getLogin()) == null) return ResponseEntity.
+                status(HttpStatus.NOT_FOUND).body("Login was not found");
         UserEntity userEntity = userService.findByLoginAndPassword(authRequest.getLogin(), authRequest.getPassword());
         if (userEntity != null) {
             String token = jwtProvider.generateToken(userEntity.getLogin());
@@ -52,6 +56,9 @@ public class AuthController {
     @GetMapping("/users")
     public List<UserEntity> users() {
         return userEntityRepository.findAll();
+    }
+    @PostMapping("/logout")
+    public void logout() {
     }
 }
 
