@@ -20,7 +20,7 @@ public class TransactionWithdrawCLI {
         if (accountWithdraw != null) {
             double amount = withdrawDepositOperationCLIUI.requestClientAmount();
             if (amount > 0 && accountWithdraw.getBalance() >= amount) {
-                transactionWithdraw.execute(accountWithdraw,amount);
+                transactionWithdraw.execute(accountWithdraw, amount);
                 System.out.println(String.format("%.2f", amount) + "$ transferred from " + accountNumber + " account");
             } else if (amount > 0 && accountWithdraw.getBalance() < amount) {
                 System.out.println("Not enough money on your account!");

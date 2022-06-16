@@ -83,6 +83,7 @@ public class AccountTransactionController {
             return ResponseEntity.status(HttpStatus.OK).body("Not enough funds!");
         }
     }
+
     @PostMapping("/{account_id}/transfer")
     ResponseEntity<?> transferMoney(@PathVariable String account_id, @RequestBody @Valid TransferRequest transfer) {
         withdrawMoney(account_id, transfer.getAmount());
