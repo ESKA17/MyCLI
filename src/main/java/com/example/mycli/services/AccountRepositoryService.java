@@ -18,4 +18,5 @@ public interface AccountRepositoryService {
     AccountWithdraw getClientWithdrawAccount(long clientID, String accountID);
 
     Account getClientAccount(long clientID, String accountID);
+    Account getAccount(String accountID);
 }

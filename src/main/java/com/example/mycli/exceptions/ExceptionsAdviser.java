@@ -21,6 +21,19 @@ public class ExceptionsAdviser {
     String badRequest(AccountBadRequest ex) {
         return ex.getMessage();
     }
+    @ResponseBody
+    @ExceptionHandler(AccountWrongLogin.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    String wrongLogin(AccountBadRequest ex) {
+        return ex.getMessage();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(AccountCheckLoginPassword.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    String checkLoginPassword(AccountCheckLoginPassword ex) {
+        return ex.getMessage();
+    }
 
     @ResponseBody
     @ExceptionHandler(AuthenticationFailed.class)
@@ -42,4 +55,5 @@ public class ExceptionsAdviser {
     String accountConflict(AccountConflict ex) {
         return ex.getMessage();
     }
+
 }

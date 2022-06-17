@@ -28,33 +28,43 @@ public class MyCliApplication implements CommandLineRunner {
         AccountAuthenticationCLI accountAuthenticationCLI = context.getBean(AccountAuthenticationCLI.class);
 
         CLIUI.greeting();
-        CLIUI.authentication();
-        CLIUI.helpTextAuth();
-        boolean regAuth = true;
-        while (regAuth) {
-            switch (myCLI.scanner.nextLine()) {
-                case "1" -> accountRegistrationCLI.registerAccountRequest();
-                case "2" -> {
-                    clientID = accountAuthenticationCLI.authenticateAccount();
-                    if (clientID != 0) regAuth = false;
+        boolean appWork = true;
+        while (appWork) {
+            CLIUI.authentication();
+            CLIUI.helpTextAuth();
+            boolean regAuth = true;
+            boolean core = true;
+            while (regAuth) {
+                switch (myCLI.scanner.nextLine()) {
+                    case "1" -> accountRegistrationCLI.registerAccountRequest();
+                    case "2" -> {
+                        clientID = accountAuthenticationCLI.authenticateAccount();
+                        if (clientID != 0) {
+                            regAuth = false;
+                            core = true;
+                        }
+                    }
+                    case "3" -> CLIUI.helpTextAuth();
+                    case "4" -> {
+                        regAuth = CLIUI.exit();
+                        core = false;
+                        appWork = false;
+                    }
+                    default -> System.out.println("Wrong input!");
                 }
-                case "3" -> CLIUI.helpTextAuth();
-                case "4" -> regAuth = CLIUI.exit();
-                default -> System.out.println("Wrong input!");
             }
-        }
-        CLIUI.helpText();
-        boolean work = true;
-        while (work) {
-            switch (myCLI.scanner.nextLine()) {
-                case "1" -> accountBasicCLI.getAccounts(clientID);
-                case "2" -> accountBasicCLI.createAccountRequest(clientID);
-                case "3" -> transactionDepositCLI.depositMoney(clientID);
-                case "4" -> transactionWithdrawCLI.withdrawMoney(clientID);
-                case "5" -> transferCLI.transferMoney(clientID);
-                case "6" -> CLIUI.helpText();
-                case "7" -> work = CLIUI.exit();
-                default -> System.out.println("Wrong input!");
+            if (appWork) CLIUI.helpText();
+            while (core) {
+                switch (myCLI.scanner.nextLine()) {
+                    case "1" -> accountBasicCLI.getAccounts(clientID);
+                    case "2" -> accountBasicCLI.createAccountRequest(clientID);
+                    case "3" -> transactionDepositCLI.depositMoney(clientID);
+                    case "4" -> transactionWithdrawCLI.withdrawMoney(clientID);
+                    case "5" -> transferCLI.transferMoney(clientID);
+                    case "6" -> CLIUI.helpText();
+                    case "7" -> core = false;
+                    default -> System.out.println("Wrong input!");
+                }
             }
         }
         myCLI.scanner.close();

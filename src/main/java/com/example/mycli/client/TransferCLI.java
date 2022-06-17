@@ -26,12 +26,12 @@ public class TransferCLI {
         }
         System.out.println("Please enter account TO which you want transfer money");
         String accountNumberTo = withdrawDepositOperationCLIUI.requestClientAccountNumber();
-        if (accountNumberTo.isEmpty() || accountListingService.getClientAccount(clientID, accountNumberFrom) == null) {
+        if (accountNumberTo.isEmpty() || accountListingService.getAccount(accountNumberTo) == null) {
             System.out.println("No account was found");
             return;
         }
         AccountWithdraw accountWithdraw = accountListingService.getClientWithdrawAccount(clientID, accountNumberFrom);
-        Account accountDeposit = accountListingService.getClientAccount(clientID, accountNumberTo);
+        Account accountDeposit = accountListingService.getAccount(accountNumberTo);
         double amount = withdrawDepositOperationCLIUI.requestClientAmount();
         if (amount > 0 && accountWithdraw.getBalance() >= amount) {
             transactionTransfer.execute(accountWithdraw, accountDeposit, amount);

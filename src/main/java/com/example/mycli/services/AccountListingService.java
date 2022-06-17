@@ -12,5 +12,5 @@ public interface AccountListingService {
 
     List<Account> getClientAccounts(long clientID);
 
-    List<Account> getClientAccountsByType(long clientID, AccountType accountType);
+    Account getAccount(String accountID);
 }

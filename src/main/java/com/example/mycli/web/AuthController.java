@@ -1,17 +1,17 @@
 package com.example.mycli.web;
 
+import com.example.mycli.exceptions.AccountCheckLoginPassword;
 import com.example.mycli.exceptions.AccountConflict;
 import com.example.mycli.exceptions.AccountCreated;
+import com.example.mycli.exceptions.AccountNotFound;
 import com.example.mycli.model.UserEntity;
 import com.example.mycli.repository.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
@@ -39,27 +39,27 @@ public class AuthController {
     @PostMapping("/auth")
     public ResponseEntity<String> auth(@RequestBody @Valid AuthRequest authRequest,
                                        HttpServletResponse httpServletResponse) {
-        if (userEntityRepository.findByLogin(authRequest.getLogin()) == null) return ResponseEntity.
-                status(HttpStatus.NOT_FOUND).body("Login was not found");
-        UserEntity userEntity = userService.findByLoginAndPassword(authRequest.getLogin(), authRequest.getPassword());
+        String login = authRequest.getLogin();
+        if (userEntityRepository.findByLogin(authRequest.getLogin()) == null) throw new AccountNotFound(login);
+        UserEntity userEntity = userService.findByLoginAndPassword(login, authRequest.getPassword());
         if (userEntity != null) {
-            String token = jwtProvider.generateToken(userEntity.getLogin());
+            String token = jwtProvider.generateToken(login);
             Cookie cookie = new Cookie("token", token);
             cookie.setHttpOnly(true);
             httpServletResponse.addCookie(cookie);
             return ResponseEntity.status(HttpStatus.OK).body("Successfully authenticated, your token: " +
             new AuthResponse(token).getToken());
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please check your login and/or password");
+            throw new AccountCheckLoginPassword();
         }
     }
     @GetMapping("/users")
     public List<UserEntity> users() {
         return userEntityRepository.findAll();
     }
+
     @PostMapping("/logout")
-    public void logout() {
-    }
+    public void logout() {}
 
     private void createUser(String login, String password) {
         UserEntity user = new UserEntity();

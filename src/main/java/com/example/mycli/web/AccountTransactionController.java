@@ -55,19 +55,19 @@ public class AccountTransactionController {
 
     @GetMapping("/{account_id}")
     ResponseEntity<?> getAccount(@PathVariable String account_id) {
-        Account out = exceptionChecker(account_id);
+        Account out = exceptionChecker(account_id, true);
         return ResponseEntity.status(HttpStatus.OK).body(out);
     }
     @DeleteMapping("/{account_id}")
     ResponseEntity<?> deleteAccount(@PathVariable String account_id) {
-        exceptionChecker(account_id);
+        exceptionChecker(account_id, true);
         accountRepository.deleteById(account_id);
         return ResponseEntity.status(HttpStatus.OK).body("Account was deleted");
     }
 
     @PostMapping("/{account_id}/withdraw")
     ResponseEntity<?> withdrawMoney(@PathVariable String account_id, @RequestParam double amount) {
-        Account account = exceptionChecker(account_id);
+        Account account = exceptionChecker(account_id, true);
         if (!account.getWithdrawalAllowed()) {
             return ResponseEntity.status(HttpStatus.OK).body("Withdrawal is not allowed!");
         }
@@ -85,14 +85,25 @@ public class AccountTransactionController {
 
     @PostMapping("/{account_id}/transfer")
     ResponseEntity<?> transferMoney(@PathVariable String account_id, @RequestBody @Valid TransferRequest transfer) {
+        String account_id_to = transfer.getDestination_account_id();
+        double amount = transfer.getAmount();
+        if (account_id.equals(account_id_to) || account_id.equals("") || account_id_to.equals("")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please check account id fields");
+        }
+        Account accountTo = exceptionChecker(account_id_to, false);
         ResponseEntity<?> answerWithdraw = withdrawMoney(account_id, transfer.getAmount());
-        depositMoney(transfer.getDestination_account_id(), transfer.getAmount());
-        return answerWithdraw;
+        if (amount > 0) {
+            transactionDeposit.execute(accountTo, amount);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Amount should be greater than 0");
+        }
+        String newBody =  answerWithdraw.getBody() + " to " + transfer.getDestination_account_id() + " account";
+        return ResponseEntity.status(HttpStatus.OK).body(newBody);
     }
 
     @PostMapping("/{account_id}/deposit")
     ResponseEntity<?> depositMoney(@PathVariable String account_id, @RequestParam double amount) {
-        Account account = exceptionChecker(account_id);
+        Account account = exceptionChecker(account_id, true);
         if (amount > 0) {
             transactionDeposit.execute(account, amount);
             return ResponseEntity.status(HttpStatus.OK).body(String.format("%.2f", amount) +
@@ -103,16 +114,21 @@ public class AccountTransactionController {
     }
     @GetMapping("/{account_id}/transactions")
     ResponseEntity<?> getAllTransactions(@PathVariable String account_id) {
-        exceptionChecker(account_id);
+        exceptionChecker(account_id, true);
         List<Transaction> transactionsList = transactionRepository.findTransactionById(account_id);
         return ResponseEntity.status(HttpStatus.OK).body(transactionsList);
     }
 
-    private Account exceptionChecker(@PathVariable String account_id) {
+    private Account exceptionChecker(String account_id, boolean checkAuthorization) {
         if (!account_id.matches("\\d+")) throw new AccountBadRequest(account_id);
         if (accountRepository.findAccountById(account_id) == null) throw new AccountNotFound(account_id);
-        Account out = accountRepository.findAccountByIdAndUserEntity(account_id, getUser()).orElse(null);
-        if (accountRepository.count() != 0 && out == null) throw new AuthenticationFailed();
+        Account out;
+        if (checkAuthorization) {
+            out = accountRepository.findAccountByIdAndUserEntity(account_id, getUser()).orElse(null);
+            if (accountRepository.count() != 0 && out == null) throw new AuthenticationFailed();
+        } else {
+            out = accountRepository.findAccountById(account_id);
+        }
         return out;
     }
     private UserEntity getUser() {

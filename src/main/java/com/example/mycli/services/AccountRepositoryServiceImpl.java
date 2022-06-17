@@ -47,4 +47,9 @@ public class AccountRepositoryServiceImpl implements AccountRepositoryService {
     public Account getClientAccount(long clientID, String accountID) {
         return accountRepository.findAccountByUserEntity_IdAndId(clientID, accountID).orElse(null);
     }
+
+    @Override
+    public Account getAccount(String accountID) {
+        return accountRepository.findById(accountID).orElse(null);
+    }
 }
