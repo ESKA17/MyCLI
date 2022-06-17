@@ -14,7 +14,7 @@ public class TransactionDepositCLI {
     private final WithdrawDepositOperationCLIUI withdrawDepositOperationCLIUI;
     private final AccountListingService accountListingService;
 
-    public void depositMoney(String clientID) {
+    public void depositMoney(long clientID) {
         String accountNumber = withdrawDepositOperationCLIUI.requestClientAccountNumber();
         if (accountNumber.isEmpty()) return;
         Account account = accountListingService.getClientAccount(clientID, accountNumber);

@@ -12,12 +12,12 @@ import javax.persistence.*;
 @Entity
 public class Transaction {
 
-    private @Id long transactionID;
+    private @Id Long transactionID;
     private String operation;
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
     private String id;
-    private String clientID;
+    private Long clientID;
     private Double amount;
 
     @Override

@@ -1,12 +1,9 @@
 package com.example.mycli.services;
 
 import com.example.mycli.model.Account;
-import com.example.mycli.repository.AccountRepositoryInterface;
 import com.example.mycli.server.AccountWithdraw;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
 
 @RequiredArgsConstructor
 @Service

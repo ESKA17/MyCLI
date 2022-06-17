@@ -8,7 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 @SpringBootApplication
 public class MyCliApplication implements CommandLineRunner {
     private final ApplicationContext context;
-    public String clientID = "1";
+    public long clientID;
 
     public MyCliApplication(ApplicationContext context) {
         this.context = context;
@@ -35,8 +35,8 @@ public class MyCliApplication implements CommandLineRunner {
             switch (myCLI.scanner.nextLine()) {
                 case "1" -> accountRegistrationCLI.registerAccountRequest();
                 case "2" -> {
-                    clientID = accountAuthenticationCLI.registerAccountRequest();
-                    if (clientID != null) regAuth = false;
+                    clientID = accountAuthenticationCLI.authenticateAccount();
+                    if (clientID != 0) regAuth = false;
                 }
                 case "3" -> CLIUI.helpTextAuth();
                 case "4" -> regAuth = CLIUI.exit();

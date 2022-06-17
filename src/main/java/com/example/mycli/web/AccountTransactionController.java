@@ -16,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -112,7 +111,7 @@ public class AccountTransactionController {
     private Account exceptionChecker(@PathVariable String account_id) {
         if (!account_id.matches("\\d+")) throw new AccountBadRequest(account_id);
         if (accountRepository.findAccountById(account_id) == null) throw new AccountNotFound(account_id);
-        Account out = accountRepository.findAccountByIdAndUserEntity(account_id, getUser());
+        Account out = accountRepository.findAccountByIdAndUserEntity(account_id, getUser()).orElse(null);
         if (accountRepository.count() != 0 && out == null) throw new AuthenticationFailed();
         return out;
     }

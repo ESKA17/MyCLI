@@ -13,7 +13,7 @@ public class BankCore {
     private final AccountRepository accountRepository;
 
 
-    public void createNewAccount(String accountTypeStr, String clientID) {
+    public void createNewAccount(String accountTypeStr, long clientID) {
         AccountType accountType = null;
         switch (accountTypeStr.toUpperCase()) {
             case "FIXED" -> accountType = AccountType.FIXED;
@@ -22,6 +22,7 @@ public class BankCore {
         }
         if (accountType != null) {
             long lastAccountNumber = accountRepository.getNextSeriesId();
+
             this.accountCreationService.create(accountType, id, clientID, lastAccountNumber);
         }
     }

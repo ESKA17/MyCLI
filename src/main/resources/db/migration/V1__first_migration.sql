@@ -1,6 +1,9 @@
 CREATE SEQUENCE account_seq
     START WITH 1
     INCREMENT BY 1;
+CREATE SEQUENCE transaction_seq
+    START WITH 1
+    INCREMENT BY 1;
 create table ROLEENTITY
 (
     id INTEGER NOT NULL,
@@ -20,7 +23,6 @@ create table USERENTITY
 CREATE TABLE IF NOT EXISTS ACCOUNT
 (   accountType NVARCHAR(20)  NOT NULL,
     id NVARCHAR(20)  NOT NULL,
-    clientID NVARCHAR(40)  NOT NULL,
     balance DOUBLE,
     withdrawalAllowed BOOLEAN,
     userentity_id INTEGER,

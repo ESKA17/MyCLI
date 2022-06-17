@@ -28,4 +28,18 @@ public class ExceptionsAdviser {
     String authenticationException(AuthenticationFailed ex) {
         return ex.getMessage();
     }
+
+    @ResponseBody
+    @ExceptionHandler(AccountCreated.class)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    String accountCreated(AccountCreated ex) {
+        return ex.getMessage();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(AccountConflict.class)
+    @ResponseStatus(value = HttpStatus.CONFLICT)
+    String accountConflict(AccountConflict ex) {
+        return ex.getMessage();
+    }
 }

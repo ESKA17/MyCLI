@@ -1,5 +1,7 @@
 package com.example.mycli.web;
 
+import com.example.mycli.exceptions.AccountConflict;
+import com.example.mycli.exceptions.AccountCreated;
 import com.example.mycli.model.UserEntity;
 import com.example.mycli.repository.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,15 +26,13 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody @Valid RegRequest registrationRequest) {
-        UserEntity userEntity = userService.findByLogin(registrationRequest.getLogin());
+        String login = registrationRequest.getLogin();
+        UserEntity userEntity = userService.findByLogin(login);
         if (userEntity == null) {
-            UserEntity u = new UserEntity();
-            u.setPassword(registrationRequest.getPassword());
-            u.setLogin(registrationRequest.getLogin());
-            userService.saveUser(u);
-            return ResponseEntity.status(HttpStatus.OK).body("You were successfully registered");
+            createUser(login, registrationRequest.getPassword());
+            throw new AccountCreated(login);
         } else {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Login is already taken");
+            throw new AccountConflict(login);
         }
     }
 
@@ -47,7 +47,7 @@ public class AuthController {
             Cookie cookie = new Cookie("token", token);
             cookie.setHttpOnly(true);
             httpServletResponse.addCookie(cookie);
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Successfully authenticated, your token: " +
+            return ResponseEntity.status(HttpStatus.OK).body("Successfully authenticated, your token: " +
             new AuthResponse(token).getToken());
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please check your login and/or password");
@@ -59,6 +59,13 @@ public class AuthController {
     }
     @PostMapping("/logout")
     public void logout() {
+    }
+
+    private void createUser(String login, String password) {
+        UserEntity user = new UserEntity();
+        user.setPassword(password);
+        user.setLogin(login);
+        userService.saveUser(user);
     }
 }
 

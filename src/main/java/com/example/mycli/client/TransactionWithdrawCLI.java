@@ -13,7 +13,7 @@ public class TransactionWithdrawCLI {
     private final WithdrawDepositOperationCLIUI withdrawDepositOperationCLIUI;
     private final AccountListingService accountListingService;
 
-    public void withdrawMoney(String clientID) {
+    public void withdrawMoney(long clientID) {
         String accountNumber = withdrawDepositOperationCLIUI.requestClientAccountNumber();
         if (accountNumber.isEmpty()) return;
         AccountWithdraw accountWithdraw = accountListingService.getClientWithdrawAccount(clientID, accountNumber);

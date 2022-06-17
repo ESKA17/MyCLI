@@ -14,7 +14,7 @@ public class AccountAuthenticationCLI {
 
     private final PasswordEncoder passwordEncoder;
 
-    public String registerAccountRequest() {
+    public long authenticateAccount() {
         System.out.println("Please enter your login");
         String login = myCLI.scanner.nextLine();
         UserEntity user = userEntityRepository.findByLogin(login);
@@ -24,9 +24,9 @@ public class AccountAuthenticationCLI {
         else {
             System.out.println("Please enter your password");
             boolean passwordMatch = passwordEncoder.matches(myCLI.scanner.nextLine(), user.getPassword());
-            if(passwordMatch) return user.getId().toString();
+            if(passwordMatch) return user.getId();
             else System.out.println("Password is incorrect");
         }
-        return null;
+        return 0;
     }
 }
