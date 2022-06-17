@@ -46,21 +46,20 @@ public class JwtFilter extends GenericFilterBean {
         Cookie[] cookies = httpServletRequest.getCookies();
         String token = null;
         String username = null;
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    token = cookie.getValue();
-                    username = jwtProvider.extractUsername(token);
-                }
-                if (username != null && SecurityContextHolder.getContext().getAuthentication() == null || token != null) {
-                    UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
-                    if (Boolean.TRUE.equals(jwtProvider.validateToken(token))) {
-                        UsernamePasswordAuthenticationToken authenticationToken =
-                                new UsernamePasswordAuthenticationToken(
-                                        userDetails, null, userDetails.getAuthorities());
-                        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-                        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                    }
+        if (cookies == null)  return null;
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("token")) {
+                token = cookie.getValue();
+                username = jwtProvider.getLoginFromToken(token);
+            }
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null || token != null) {
+                UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+                if (Boolean.TRUE.equals(jwtProvider.validateToken(token))) {
+                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                                    userDetails, null, userDetails.getAuthorities());
+                    authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(
+                            httpServletRequest));
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 }
             }
         }
